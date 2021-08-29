@@ -3,6 +3,7 @@ using Repository.Context;
 using Repository.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Repository.Repository
@@ -31,6 +32,28 @@ namespace Repository.Repository
                 return false;
             }
             catch(ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        //check whether login and Password matches the Database
+        public bool Login(string email, String password)
+        {
+            try
+            {
+                string encodedPassword = EncryptPassword(password);
+                var login = this.userContext.Users
+                    .Where(x => (x.Email == email && x.Password == encodedPassword)).FirstOrDefault();
+                if(login!=null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (ArgumentNullException ex)
             {
                 throw new Exception(ex.Message);
             }
