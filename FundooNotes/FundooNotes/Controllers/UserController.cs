@@ -15,13 +15,15 @@ namespace FundooNotes.Controllers
         {
             this.manager = manager;
         }
-
+        
+        //Check for POST Request 
         [HttpPost]
         [Route("api/register")]
         public IActionResult Register([FromBody]RegisterModel userData)
         {
             try
             {
+                //Send user data to manager
                 bool result = this.manager.Register(userData);
                 if(result == true)
                 {
@@ -37,8 +39,5 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { status = false, Message = ex.Message });
             }
         }
-
-
-
     }
 }
