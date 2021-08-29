@@ -21,6 +21,8 @@ namespace Repository.Repository
                 //Check whether data is present in userdata 
                 if(userData !=null)
                 {
+                    //Encrypt password
+                    userData.Password = EncryptPassword(userData.Password);
                     //Add data to Dbset
                     this.userContext.Users.Add(userData);
                     this.userContext.SaveChanges();
@@ -32,6 +34,13 @@ namespace Repository.Repository
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        //Encrypt password to Base 64 string
+        public static string EncryptPassword(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
         }
     }
 }
