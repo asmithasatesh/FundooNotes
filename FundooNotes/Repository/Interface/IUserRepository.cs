@@ -8,5 +8,6 @@ namespace Repository.Interface
     public interface IUserRepository
     {
         bool Register(RegisterModel userData);
+        public bool Login(string email, String password);
     }
 }

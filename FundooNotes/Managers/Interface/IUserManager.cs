@@ -9,5 +9,6 @@ namespace Managers.Interface
     {
         //Interface that implements 
         public bool Register(RegisterModel userData);
+        public bool Login(string email, string password);
     }
 }

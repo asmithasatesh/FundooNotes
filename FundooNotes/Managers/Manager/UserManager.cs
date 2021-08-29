@@ -26,5 +26,17 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public bool Login(string email, String password)
+        {
+            try
+            {
+                //Send userdata to Repository and return result true or false
+                return this.repository.Login(email,password);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
