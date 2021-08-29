@@ -18,6 +18,7 @@ namespace Managers.Manager
         {
             try
             {
+                //Send userdata to Repository and return result true or false
                 return this.repository.Register(userData);
             }
             catch(Exception ex)
@@ -25,6 +26,5 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
-
     }
 }

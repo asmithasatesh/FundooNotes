@@ -18,8 +18,10 @@ namespace Repository.Repository
         {
             try
             {
+                //Check whether data is present in userdata 
                 if(userData !=null)
                 {
+                    //Add data to Dbset
                     this.userContext.Users.Add(userData);
                     this.userContext.SaveChanges();
                     return true;
@@ -31,7 +33,5 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
-
-
     }
 }

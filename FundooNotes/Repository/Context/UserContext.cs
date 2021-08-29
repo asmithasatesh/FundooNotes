@@ -10,7 +10,6 @@ namespace Repository.Context
     {
         public UserContext(DbContextOptions<UserContext> options) : base(options)
         {
-
         }
         public DbSet<RegisterModel> Users { get; set; }
     }
