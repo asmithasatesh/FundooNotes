@@ -14,8 +14,26 @@ namespace Repository.Interface
     /// </summary>
     public interface IUserRepository
     {
+        /// <summary>
+        /// Registers the specified user data.
+        /// </summary>
+        /// <param name="userData">The user data.</param>
+        /// <returns>Returns true or false</returns>
         bool Register(RegisterModel userData);
-        public bool Login(string email, String password);
-        public bool ForgetPassword(string Email);
+
+        /// <summary>
+        /// Logins the specified email.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>Returns true or false</returns>
+        public bool Login(string email, string password);
+
+        /// <summary>
+        /// Forgets the password.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns>Returns true or false</returns>
+        public bool ForgetPassword(string email);
     }
 }
