@@ -25,16 +25,16 @@ namespace FundooNotes.Controllers
                 bool result = this.manager.Register(userData);
                 if(result == true)
                 {
-                    return this.Ok(new ResponseModel<string>() { status = true, Message = "Resgisteration Successful" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Resgisteration Successful" });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { status = false, Message = "Resgisteration Unsuccessful" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Resgisteration Unsuccessful" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<string>() { status = false, Message = ex.Message });
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
 
@@ -49,16 +49,16 @@ namespace FundooNotes.Controllers
                 bool result = this.manager.Login(userData.Email,userData.Password);
                 if (result == true)
                 {
-                    return this.Ok(new ResponseModel<string>() { status = true, Message = "Login Successful" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Login Successful" });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { status = false, Message = "Login Unsuccessful, Email or Password is Incorrecr" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Login Unsuccessful, Email or Password is Incorrecr" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<string>() { status = false, Message = ex.Message });
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
         //Check for GET Request in ForgetPassword
@@ -72,16 +72,16 @@ namespace FundooNotes.Controllers
                 bool result = this.manager.ForgetPassword(Email);
                 if (result == true)
                 {
-                    return this.Ok(new ResponseModel<string>() { status = true, Message = "Please check your email" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Please check your email" });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { status = false, Message = "Email not Sent" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Email not Sent" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<string>() { status = false, Message = ex.Message });
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
     }

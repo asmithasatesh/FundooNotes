@@ -1,38 +1,60 @@
-﻿
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Asmitha Satesh"/>
+// ----------------------------------------------------------------------------------------------------------
 namespace Repository.Repository
 {
-    using Experimental.System.Messaging;
-    using global::Repository.Context;
-    using global::Repository.Interface;
-    using Models;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Mail;
-    using System.Text;
+    using Experimental.System.Messaging;
+    using Models;
+    using global::Repository.Context;
+    using global::Repository.Interface;
+
+    /// <summary>
+    /// This class is used to store and manage user data
+    /// </summary>
     public class UserRepository : IUserRepository
     {
-        public readonly UserContext userContext;
+        /// <summary>
+        /// User context is used to call constructor for database Context
+        /// </summary>
+        public readonly UserContext UserContext;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRepository"/> class
+        /// </summary>
+        /// <param name="userContext">User Data</param>
+        /// <returns> Returns true if data added otherwise return false</returns>
         public UserRepository(UserContext userContext)
         {
-            this.userContext = userContext;
+            this.UserContext = userContext;
         }
+
+        /// <summary>
+        /// Register method to check whether data is present or not
+        /// </summary>
+        /// <param name="userData">User Data</param>
+        /// <returns>Return true when changes are saved</returns>
         public bool Register(RegisterModel userData)
         {
             try
-            {
-                //Check whether data is present in userdata 
+            { 
                 if (userData != null)
-                {
-                    //Encrypt password
-                    userData.Password = EncryptPassword(userData.Password);
-                    //Add data to Dbset
-                    this.userContext.Users.Add(userData);
-                    this.userContext.SaveChanges();
+                {   
+                    //// Encrypt password
+                    userData.Password = this.EncryptPassword(userData.Password);
+
+                    //// Add data to Dbset
+                    this.UserContext.Users.Add(userData);
+                    this.UserContext.SaveChanges();
                     return true;
                 }
+
                 return false;
             }
             catch (ArgumentNullException ex)
@@ -40,13 +62,19 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
-        //check whether login and Password matches the Database
-        public bool Login(string email, String password)
+
+        /// <summary>
+        /// Check whether login and Password matches the Database
+        /// </summary>
+        /// <param name="email">Email Id</param>
+        /// <param name="password">Password for user email</param>
+        /// <returns>Return true if email id and Login matches</returns>
+        public bool Login(string email, string password)
         {
             try
             {
-                string encodedPassword = EncryptPassword(password);
-                var login = this.userContext.Users
+                string encodedPassword = this.EncryptPassword(password);
+                var login = this.UserContext.Users
                     .Where(x => (x.Email == email && x.Password == encodedPassword)).FirstOrDefault();
                 if (login != null)
                 {
@@ -63,19 +91,27 @@ namespace Repository.Repository
             }
         }
 
-        //Encrypt password to Base 64 string
-        public static string EncryptPassword(string plainText)
+        /// <summary>
+        /// Encrypt password to Base 64 string
+        /// </summary>
+        /// <param name="plainText">Password in Alphabets</param>
+        /// <returns>Encrypted password</returns>
+        public string EncryptPassword(string plainText)
         {
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
             return System.Convert.ToBase64String(plainTextBytes);
         }
 
-        //Forget password: Send the email to Send MSMQ
-        public bool ForgetPassword(string Email)
+        /// <summary>
+        /// Forget password: Send the email to Send MSMQ
+        /// </summary>
+        /// <param name="email">Email Id</param>
+        /// <returns>Return true if email is sent successfully</returns>
+        public bool ForgetPassword(string email)
         {
             try
             {
-                if (SendMSMQ(Email) == true)
+                if (this.SendMSMQ(email) == true)
                 {
                     return true;
                 }
@@ -84,15 +120,18 @@ namespace Repository.Repository
                     return false;
                 }
             }
-
             catch (ArgumentNullException ex)
             {
                 throw new Exception(ex.Message);
             }
         }
 
-        //This will create a MSMQ queue and store the message details
-        public bool SendMSMQ(string Email)
+        /// <summary>
+        /// This will create a MSMQ queue and store the message details
+        /// </summary>
+        /// <param name="email">Email Id</param>
+        /// <returns>Return value received from MSMQ Method</returns>
+        public bool SendMSMQ(string email)
         {
             MessageQueue msgqueue;
             if (MessageQueue.Exists(@".\Private$\MyFundooQueue"))
@@ -110,18 +149,24 @@ namespace Repository.Repository
             message.Body = "This is body content stored in MSMQ";
             msgqueue.Label = "This is Queue Label";
             msgqueue.Send(message);
-            return RecieveMSMQ(Email);
+            return this.RecieveMSMQ(email);
         }
-        public bool RecieveMSMQ(string Email)
+
+        /// <summary>
+        /// Receive message details from user
+        /// </summary>
+        /// <param name="email">Email Id</param>
+        /// <returns>Return data based on SendToMail</returns>
+        public bool RecieveMSMQ(string email)
         {
-            //for reading msmq
+            ////For reading msmq message
             var receivequeue = new MessageQueue(@".\Private$\MyFundooQueue");
             var receivemsg = receivequeue.Receive();
             receivemsg.Formatter = new BinaryMessageFormatter();
             string emailBody = receivemsg.Body.ToString();
 
-            //Send To-Email address and emailBody content as parameter
-            if (SendToMail(Email, emailBody))
+            ////Send To-Email address and emailBody content as parameter
+            if (this.SendToMail(email, emailBody))
             {
                 return true;
             }
@@ -131,14 +176,23 @@ namespace Repository.Repository
             }
         }
 
+        /// <summary>
+        /// This method send mail to given email using protocols
+        /// </summary>
+        /// <param name="email">Email Id</param>
+        /// <param name="emailBody">Email Body</param>
+        /// <returns>Returns true is done successfully</returns>
         private bool SendToMail(string email, string emailBody)
         {
             MailMessage mailMessage = new MailMessage();
-            //Create smpt client
+
+            ////Create smpt client
+
             SmtpClient smtp = new SmtpClient();
             mailMessage.From = new MailAddress("generalemailapplication@gmail.com");
 
-            //Set To-Address
+            ////Set To-Address
+
             mailMessage.To.Add(new MailAddress(email));
             mailMessage.Subject = "Link to reset your password for Fundoo";
             mailMessage.IsBodyHtml = true;
