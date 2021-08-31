@@ -9,5 +9,6 @@ namespace Repository.Interface
     {
         bool Register(RegisterModel userData);
         public bool Login(string email, String password);
+        public bool ForgetPassword(string Email);
     }
 }

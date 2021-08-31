@@ -36,7 +36,7 @@ namespace FundooNotes
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient< IUserManager, UserManager>();
-            //services.AddRazorPages();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,15 +56,18 @@ namespace FundooNotes
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            //Find endpoint
             app.UseRouting();
 
             app.UseAuthorization();
 
+            //Adds endpoint execution to the middleware pipeline.
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                                name: "default",
-                                pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute();
+                //endpoints.MapControllerRoute(
+                //                name: "",
+                //                pattern: "{controller=api/Login}/{action=Login}/{id?}");
             });
         }
     }
