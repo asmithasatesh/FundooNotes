@@ -1,29 +1,50 @@
-﻿
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserController.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Asmitha Satesh"/>
+// ----------------------------------------------------------------------------------------------------------
 namespace FundooNotes.Controllers
 {
+    using System;
     using Managers.Interface;
     using Microsoft.AspNetCore.Mvc;
     using Models;
-    using System;
+
+    /// <summary>
+    /// Based on Route value will be changed
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     public class UserController : ControllerBase
     {
+        /// <summary>
+        /// User manager Object
+        /// </summary>
         private readonly IUserManager manager;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserController"/> class.
+        /// </summary>
+        /// <param name="manager">The manager.</param>
         public UserController(IUserManager manager)
         {
             this.manager = manager;
         }
-        
-        //Check for POST Request 
+
+        /// <summary>
+        /// Check for POST Request in Register
+        /// </summary>
+        /// <param name="userData">The user data.</param>
+        /// <returns>Returns Response</returns>
         [HttpPost]
         [Route("api/register")]
         public IActionResult Register([FromBody]RegisterModel userData)
         {
             try
             {
-                //Send user data to manager
+                ////Send user data to manager
                 bool result = this.manager.Register(userData);
-                if(result == true)
+                if (result == true)
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Resgisteration Successful" });
                 }
@@ -38,15 +59,19 @@ namespace FundooNotes.Controllers
             }
         }
 
-        //Check for GET Request in Login Page
+        /// <summary>
+        /// Check for GET Request in Login Page
+        /// </summary>
+        /// <param name="userData">User data</param>
+        /// <returns>Returns Response</returns>
         [HttpGet]
         [Route("api/login")]
         public IActionResult Login([FromBody] LoginModel userData)
         {
             try
             {
-                //Send user data to manager
-                bool result = this.manager.Login(userData.Email,userData.Password);
+                ////Send user data to manager
+                bool result = this.manager.Login(userData.Email, userData.Password);
                 if (result == true)
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Login Successful" });
@@ -61,15 +86,20 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-        //Check for GET Request in ForgetPassword
+
+        /// <summary>
+        /// Check for GET Request in ForgetPassword
+        /// </summary>
+        /// <param name="email">Email Id</param>
+        /// <returns>Returns Response</returns>
         [HttpGet]
         [Route("api/forgetPassword")]
-        public IActionResult ForgetPassword(string Email)
+        public IActionResult ForgetPassword(string email)
         {
             try
             {
-                //Send user data to manager
-                bool result = this.manager.ForgetPassword(Email);
+                ////Send user data to manager
+                bool result = this.manager.ForgetPassword(email);
                 if (result == true)
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Please check your email" });

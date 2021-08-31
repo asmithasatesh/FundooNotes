@@ -1,54 +1,93 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UserController.cs" company="Bridgelabz">
+// <copyright file="UserManager.cs" company="Bridgelabz">
 //   Copyright © 2021 Company="BridgeLabz"
 // </copyright>
 // <creator name="Dandge Arti Subhash"/>
 // ----------------------------------------------------------------------------------------------------------
-
-
 namespace Managers.Manager
 {
+    using System;
     using Managers.Interface;
     using Models;
     using Repository.Interface;
-    using System;
-    public class UserManager: IUserManager
+
+    /// <summary>
+    /// IManager methods are defined in User Manager
+    /// </summary>
+    /// <seealso cref="Managers.Interface.IUserManager" />
+    public class UserManager : IUserManager
     {
+        /// <summary>
+        /// The repository
+        /// </summary>
         private readonly IUserRepository repository;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserManager"/> class.
+        /// </summary>
+        /// <param name="repository">The repository.</param>
         public UserManager(IUserRepository repository)
         {
             this.repository = repository;
         }
+
+        /// <summary>
+        /// Registers the specified user data.
+        /// </summary>
+        /// <param name="userData">The user data.</param>
+        /// <returns>
+        /// Return true is successful
+        /// </returns>
+        /// <exception cref="System.Exception">Throw exception</exception>
         public bool Register(RegisterModel userData)
         {
             try
             {
-                //Send userdata to Repository and return result true or false
+                ////Send userdata to Repository and return result true or false
                 return this.repository.Register(userData);
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public bool Login(string email, String password)
-        {
-            try
-            {
-                //Send userdata to Repository and return result true or false
-                return this.repository.Login(email,password);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public bool ForgetPassword(string Email)
+
+        /// <summary>
+        /// Logins the specified email.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>
+        /// Returns true if successful
+        /// </returns>
+        /// <exception cref="System.Exception">Throw exception</exception>
+        public bool Login(string email, string password)
         {
             try
             {
-                //Send userdata to Repository and return result true or false
-                return this.repository.ForgetPassword(Email);
+                ////Send userdata to Repository and return result true or false
+                return this.repository.Login(email, password);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Forgets the password.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns>
+        /// Returns true if successful
+        /// </returns>
+        /// <exception cref="System.Exception">Throw exception</exception>
+        public bool ForgetPassword(string email)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.ForgetPassword(email);
             }
             catch (Exception ex)
             {
