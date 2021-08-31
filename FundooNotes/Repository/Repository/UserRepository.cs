@@ -12,7 +12,7 @@ namespace Repository.Repository
     using System.Net;
     using System.Net.Mail;
     using System.Text;
-    public class UserRepository:IUserRepository
+    public class UserRepository : IUserRepository
     {
         public readonly UserContext userContext;
         public UserRepository(UserContext userContext)
@@ -24,7 +24,7 @@ namespace Repository.Repository
             try
             {
                 //Check whether data is present in userdata 
-                if(userData !=null)
+                if (userData != null)
                 {
                     //Encrypt password
                     userData.Password = EncryptPassword(userData.Password);
@@ -35,7 +35,7 @@ namespace Repository.Repository
                 }
                 return false;
             }
-            catch(ArgumentNullException ex)
+            catch (ArgumentNullException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -48,7 +48,7 @@ namespace Repository.Repository
                 string encodedPassword = EncryptPassword(password);
                 var login = this.userContext.Users
                     .Where(x => (x.Email == email && x.Password == encodedPassword)).FirstOrDefault();
-                if(login!=null)
+                if (login != null)
                 {
                     return true;
                 }
@@ -75,7 +75,7 @@ namespace Repository.Repository
         {
             try
             {
-                if(SendMSMQ(Email) == true)
+                if (SendMSMQ(Email) == true)
                 {
                     return true;
                 }
@@ -84,6 +84,7 @@ namespace Repository.Repository
                     return false;
                 }
             }
+
             catch (ArgumentNullException ex)
             {
                 throw new Exception(ex.Message);
@@ -94,15 +95,15 @@ namespace Repository.Repository
         public bool SendMSMQ(string Email)
         {
             MessageQueue msgqueue;
-            if(MessageQueue.Exists(@".\Private$\MyFundooQueue"))
+            if (MessageQueue.Exists(@".\Private$\MyFundooQueue"))
             {
                 msgqueue = new MessageQueue(@".\Private$\MyFundooQueue");
             }
             else
             {
-
                 msgqueue = MessageQueue.Create(@".\Private$\MyFundooQueue");
             }
+
             Message message = new Message();
             var formatter = new BinaryMessageFormatter();
             message.Formatter = formatter;
@@ -117,7 +118,36 @@ namespace Repository.Repository
             var receivequeue = new MessageQueue(@".\Private$\MyFundooQueue");
             var receivemsg = receivequeue.Receive();
             receivemsg.Formatter = new BinaryMessageFormatter();
-            string linktosend = receivemsg.Body.ToString();
+            string emailBody = receivemsg.Body.ToString();
+
+            //Send To-Email address and emailBody content as parameter
+            if (SendToMail(Email, emailBody))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool SendToMail(string email, string emailBody)
+        {
+            MailMessage mailMessage = new MailMessage();
+            //Create smpt client
+            SmtpClient smtp = new SmtpClient();
+            mailMessage.From = new MailAddress("generalemailapplication@gmail.com");
+
+            //Set To-Address
+            mailMessage.To.Add(new MailAddress(email));
+            mailMessage.Subject = "Link to reset your password for Fundoo";
+            mailMessage.IsBodyHtml = true;
+            mailMessage.Body = emailBody;
+            smtp.Port = 587;
+            smtp.Host = "smtp.gmail.com";
+            smtp.EnableSsl = true;
+            smtp.Credentials = new NetworkCredential("generalemailapplication@gmail.com", "Abcd@1234");
+            smtp.Send(mailMessage);
             return true;
         }
     }
