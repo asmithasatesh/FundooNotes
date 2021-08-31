@@ -109,8 +109,16 @@ namespace Repository.Repository
             message.Body = "This is body content stored in MSMQ";
             msgqueue.Label = "This is Queue Label";
             msgqueue.Send(message);
+            return RecieveMSMQ(Email);
+        }
+        public bool RecieveMSMQ(string Email)
+        {
+            //for reading msmq
+            var receivequeue = new MessageQueue(@".\Private$\MyFundooQueue");
+            var receivemsg = receivequeue.Receive();
+            receivemsg.Formatter = new BinaryMessageFormatter();
+            string linktosend = receivemsg.Body.ToString();
             return true;
         }
-
     }
 }
