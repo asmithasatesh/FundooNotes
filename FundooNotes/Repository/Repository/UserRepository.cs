@@ -103,6 +103,28 @@ namespace Repository.Repository
         }
 
         /// <summary>
+        /// Reset password for given email
+        /// </summary>
+        /// <param name="email">The Email</param>
+        /// <param name="password">The Password</param>
+        /// <returns>Returns true if successful</returns>
+        public bool ResetPassword(string email, string password)
+        {
+            try
+            {
+                var user = this.UserContext.Users.Where(x => x.Email == email).FirstOrDefault();
+                user.Password = this.EncryptPassword(password);
+                this.UserContext.Users.Update(user);
+                this.UserContext.SaveChanges();
+                return true;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Forget password: Send the email to Send MSMQ
         /// </summary>
         /// <param name="email">Email Id</param>

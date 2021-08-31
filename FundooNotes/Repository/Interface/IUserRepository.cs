@@ -35,5 +35,12 @@ namespace Repository.Interface
         /// <param name="email">The email.</param>
         /// <returns>Returns true or false</returns>
         public bool ForgetPassword(string email);
+
+        /// <summary>
+        /// Forgets the password.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns>Returns true if successful</returns>
+        public bool ResetPassword(string email, string password);
     }
 }

@@ -94,5 +94,26 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Forgets the password.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <param name="password">The Password</param>
+        /// <returns>
+        /// Returns true if successful
+        /// </returns>
+        /// <exception cref="System.Exception">Throws exception</exception>
+        public bool ResetPassword(string email, string password)
+        {
+            try
+            {
+                return this.repository.ResetPassword(email, password);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

@@ -29,6 +29,7 @@ namespace Models
         /// The first name.
         /// </value>
         [Required]
+        [RegularExpression(@"^[A-Z]{1}[a-z]{2,}$", ErrorMessage = "Not Valid First Name")]
         public string FirstName { get; set; }
 
         /// <summary>
@@ -38,6 +39,7 @@ namespace Models
         /// The last name.
         /// </value>
         [Required]
+        [RegularExpression(@"^[A-Z]{1}[a-z]{2,}$", ErrorMessage = "Not Valid Last Name")]
         public string LastName { get; set; }
 
         /// <summary>
@@ -47,6 +49,7 @@ namespace Models
         /// The email.
         /// </value>
         [Required]
+        [RegularExpression(@"(^[a-z]+)(([\. \+ \-]?[a-z A-Z 0-9])*)@(([0-9 a-z]+[\.]+[a-z]{3})+([\.]+[a-z]{2,3})?$)", ErrorMessage = "Not a valid Email")]
         public string Email { get; set; }
 
         /// <summary>
@@ -56,6 +59,7 @@ namespace Models
         /// The password.
         /// </value>
         [Required]
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=[^.,:;'!@#$%^&*_+=|(){}[?\-\]\/\\]*[.,:;'!@#$%^&*_+=|(){}[?\-\]\/\\][^.,:;'!@#$%^&*_+=|(){}[?\-\]\/\\]*$).{8,}$", ErrorMessage = "Not a valid Password")]
         public string Password { get; set; }
     }
 }
