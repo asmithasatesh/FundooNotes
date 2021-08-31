@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Repository.Context
+﻿namespace Repository.Context
 {
+    using Microsoft.EntityFrameworkCore;
+    using Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     public class UserContext: DbContext
     {
         public UserContext(DbContextOptions<UserContext> options) : base(options)

@@ -1,13 +1,17 @@
-﻿using Models;
-using Repository.Context;
-using Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
 
 namespace Repository.Repository
 {
+    using Experimental.System.Messaging;
+    using global::Repository.Context;
+    using global::Repository.Interface;
+    using Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Mail;
+    using System.Text;
     public class UserRepository:IUserRepository
     {
         public readonly UserContext userContext;
@@ -65,5 +69,48 @@ namespace Repository.Repository
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
             return System.Convert.ToBase64String(plainTextBytes);
         }
+
+        //Forget password: Send the email to Send MSMQ
+        public bool ForgetPassword(string Email)
+        {
+            try
+            {
+                if(SendMSMQ(Email) == true)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        //This will create a MSMQ queue and store the message details
+        public bool SendMSMQ(string Email)
+        {
+            MessageQueue msgqueue;
+            if(MessageQueue.Exists(@".\Private$\MyFundooQueue"))
+            {
+                msgqueue = new MessageQueue(@".\Private$\MyFundooQueue");
+            }
+            else
+            {
+
+                msgqueue = MessageQueue.Create(@".\Private$\MyFundooQueue");
+            }
+            Message message = new Message();
+            var formatter = new BinaryMessageFormatter();
+            message.Formatter = formatter;
+            message.Body = "This is body content stored in MSMQ";
+            msgqueue.Label = "This is Queue Label";
+            msgqueue.Send(message);
+            return true;
+        }
+
     }
 }

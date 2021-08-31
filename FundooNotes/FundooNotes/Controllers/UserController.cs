@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Models;
-using Managers.Interface;
+﻿
 
 namespace FundooNotes.Controllers
 {
+    using Managers.Interface;
+    using Microsoft.AspNetCore.Mvc;
+    using Models;
+    using System;
     public class UserController : ControllerBase
     {
         private readonly IUserManager manager;
@@ -56,6 +54,29 @@ namespace FundooNotes.Controllers
                 else
                 {
                     return this.BadRequest(new ResponseModel<string>() { status = false, Message = "Login Unsuccessful, Email or Password is Incorrecr" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { status = false, Message = ex.Message });
+            }
+        }
+        //Check for GET Request in ForgetPassword
+        [HttpGet]
+        [Route("api/forgetPassword")]
+        public IActionResult ForgetPassword(string Email)
+        {
+            try
+            {
+                //Send user data to manager
+                bool result = this.manager.ForgetPassword(Email);
+                if (result == true)
+                {
+                    return this.Ok(new ResponseModel<string>() { status = true, Message = "Please check your email" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { status = false, Message = "Email not Sent" });
                 }
             }
             catch (Exception ex)
