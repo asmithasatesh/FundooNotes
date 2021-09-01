@@ -14,6 +14,10 @@ namespace Repository.Repository
     using Models;
     using global::Repository.Context;
     using global::Repository.Interface;
+    using Microsoft.IdentityModel.Tokens;
+    using System.Security.Claims;
+    using System.IdentityModel.Tokens.Jwt;
+    using Microsoft.Extensions.Configuration;
 
     /// <summary>
     /// This class is used to store and manage user data
@@ -24,15 +28,17 @@ namespace Repository.Repository
         /// User context is used to call constructor for database Context
         /// </summary>
         public readonly UserContext UserContext;
+        public IConfiguration Configuration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserRepository"/> class
         /// </summary>
         /// <param name="userContext">User Data</param>
         /// <returns> Returns true if data added otherwise return false</returns>
-        public UserRepository(UserContext userContext)
+        public UserRepository(UserContext userContext,IConfiguration configuration)
         {
             this.UserContext = userContext;
+            this.Configuration = configuration;
         }
 
         /// <summary>
@@ -40,22 +46,31 @@ namespace Repository.Repository
         /// </summary>
         /// <param name="userData">User Data</param>
         /// <returns>Return true when changes are saved</returns>
-        public bool Register(RegisterModel userData)
+        public string Register(RegisterModel userData)
         {
             try
-            { 
-                if (userData != null)
-                {   
-                    //// Encrypt password
-                    userData.Password = this.EncryptPassword(userData.Password);
+            {
+                var checkUser = this.UserContext.Users.Where(user => user.Email == userData.Email).FirstOrDefault();
+                if(checkUser == null)
+                {
+                    if (userData != null)
+                    {
+                        //// Encrypt password
+                        userData.Password = this.EncryptPassword(userData.Password);
 
-                    //// Add data to Dbset
-                    this.UserContext.Users.Add(userData);
-                    this.UserContext.SaveChanges();
-                    return true;
+                        //// Add data to Dbset
+                        this.UserContext.Users.Add(userData);
+                        this.UserContext.SaveChanges();
+                        return "Registeration Successful";
+                    }
+
+                    return "Registeration not Successful";
+                }
+                else
+                {
+                    return "Email already exist! please try again!";
                 }
 
-                return false;
             }
             catch (ArgumentNullException ex)
             {
@@ -69,7 +84,7 @@ namespace Repository.Repository
         /// <param name="email">Email Id</param>
         /// <param name="password">Password for user email</param>
         /// <returns>Return true if email id and Login matches</returns>
-        public bool Login(string email, string password)
+        public string Login(string email, string password)
         {
             try
             {
@@ -78,17 +93,35 @@ namespace Repository.Repository
                     .Where(x => (x.Email == email && x.Password == encodedPassword)).FirstOrDefault();
                 if (login != null)
                 {
-                    return true;
+                    return "Login Successful";
                 }
                 else
                 {
-                    return false;
+                    return "Login Unsuccessful, Email or Password is Incorrecr";
                 }
             }
             catch (ArgumentNullException ex)
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public string GenerateToken(string email)
+        {
+            var secret = this.Configuration["Secret"];
+            byte[] key = Convert.FromBase64String(secret);
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key);
+            SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[] {
+                new Claim(ClaimTypes.Name, email)
+            }),
+                Expires = DateTime.UtcNow.AddMinutes(30),
+                SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
+            };
+            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken token = handler.CreateJwtSecurityToken(descriptor);
+            return handler.WriteToken(token);
         }
 
         /// <summary>
@@ -164,7 +197,6 @@ namespace Repository.Repository
             {
                 msgqueue = MessageQueue.Create(@".\Private$\MyFundooQueue");
             }
-
             Message message = new Message();
             var formatter = new BinaryMessageFormatter();
             message.Formatter = formatter;
@@ -185,10 +217,9 @@ namespace Repository.Repository
             var receivequeue = new MessageQueue(@".\Private$\MyFundooQueue");
             var receivemsg = receivequeue.Receive();
             receivemsg.Formatter = new BinaryMessageFormatter();
-            string emailBody = receivemsg.Body.ToString();
 
             ////Send To-Email address and emailBody content as parameter
-            if (this.SendToMail(email, emailBody))
+            if (this.SendToMail(email, receivemsg))
             {
                 return true;
             }
@@ -204,24 +235,22 @@ namespace Repository.Repository
         /// <param name="email">Email Id</param>
         /// <param name="emailBody">Email Body</param>
         /// <returns>Returns true is done successfully</returns>
-        private bool SendToMail(string email, string emailBody)
+        private bool SendToMail(string email, Message emailBody)
         {
             MailMessage mailMessage = new MailMessage();
 
             ////Create smpt client
-
             SmtpClient smtp = new SmtpClient();
             mailMessage.From = new MailAddress("generalemailapplication@gmail.com");
 
             ////Set To-Address
-
             mailMessage.To.Add(new MailAddress(email));
             mailMessage.Subject = "Link to reset your password for Fundoo";
             mailMessage.IsBodyHtml = true;
-            mailMessage.Body = emailBody;
-            smtp.Port = 587;
+            mailMessage.Body = emailBody.Body.ToString();
             smtp.Host = "smtp.gmail.com";
             smtp.EnableSsl = true;
+            smtp.Port = 587;
             smtp.Credentials = new NetworkCredential("generalemailapplication@gmail.com", "Abcd@1234");
             smtp.Send(mailMessage);
             return true;

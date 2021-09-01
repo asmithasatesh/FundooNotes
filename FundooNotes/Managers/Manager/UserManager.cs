@@ -39,7 +39,7 @@ namespace Managers.Manager
         /// Return true is successful
         /// </returns>
         /// <exception cref="System.Exception">Throw exception</exception>
-        public bool Register(RegisterModel userData)
+        public string Register(RegisterModel userData)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace Managers.Manager
         /// Returns true if successful
         /// </returns>
         /// <exception cref="System.Exception">Throw exception</exception>
-        public bool Login(string email, string password)
+        public string Login(string email, string password)
         {
             try
             {
@@ -109,6 +109,18 @@ namespace Managers.Manager
             try
             {
                 return this.repository.ResetPassword(email, password);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string GenerateToken(string email)
+        {
+            try
+            {
+                return this.repository.GenerateToken(email);
             }
             catch (Exception ex)
             {
