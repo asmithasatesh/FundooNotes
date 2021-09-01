@@ -29,31 +29,42 @@ namespace Repository.Repository
         {
             try
             {
-                var checkUser = this.UserContext.Notes.Where(user => user.NotesId == noteData.NotesId).FirstOrDefault();
-                if (checkUser == null)
+                if (noteData != null)
                 {
-                    if (noteData != null)
-                    {
-                        //// Add data to Dbset
-                        this.UserContext.Notes.Add(noteData);
-                        this.UserContext.SaveChanges();
-                        return "Note has been created!";
-                    }
-
-                    return "No data given";
-                }
-                else
-                {
-                    this.UserContext.Notes.Update(noteData);
+                    //// Add data to Dbset
+                    this.UserContext.Notes.Add(noteData);
                     this.UserContext.SaveChanges();
-                    return "Notes have been Updated Successfully!";
+                    return "Note has been created!";
                 }
+
+                return "No data given to add note";
             }
             catch (ArgumentNullException ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-
+        /// <summary>
+        /// Gets the user notes.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>Return List of notes</returns>
+        /// <exception cref="System.Exception">Returns Exception</exception>
+        public List<NotesModel> GetUserNotes(int userId)
+        {
+            try
+            {
+                List<NotesModel> noteList = this.UserContext.Notes.Where(x => x.UserId == userId).ToList();
+                if (noteList.Count != 0)
+                {
+                    return noteList;
+                }
+                return default;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

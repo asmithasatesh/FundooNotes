@@ -8,5 +8,6 @@ namespace Repository.Interface
     public interface INotesRepository
     {
         public string CreateNote(NotesModel noteData);
+        public List<NotesModel> GetUserNotes(int userId);
     }
 }

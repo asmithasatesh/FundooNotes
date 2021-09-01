@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Managers.Manager
 {
-    public class NotesManager: INotesManager
+    public class NotesManager : INotesManager
     {
         /// <summary>
         /// The repository
@@ -28,6 +28,18 @@ namespace Managers.Manager
             {
                 ////Send userdata to Repository and return result true or false
                 return this.repository.CreateNote(noteData);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<NotesModel> GetUserNotes(int userId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.GetUserNotes(userId);
             }
             catch (Exception ex)
             {

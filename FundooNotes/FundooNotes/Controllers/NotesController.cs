@@ -22,7 +22,7 @@ namespace FundooNotes.Controllers
             try
             {
                 ////Send user data to manager
-                string result = this.noteManager.CreateNote(noteData);
+                  string result = this.noteManager.CreateNote(noteData);
                 if (result == "Note has been created!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -30,6 +30,30 @@ namespace FundooNotes.Controllers
                 else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        //Retrieve user notes
+        [HttpGet]
+        [Route("api/GetUserNote")]
+        public IActionResult GetUserNotes(int UserId)
+        {
+            try
+            {
+                ////Send user data to manager
+                List<NotesModel> result = this.noteManager.GetUserNotes(UserId);
+                if (result.Count!=0)
+                {
+                    return this.Ok(new { Status = true, Message = "Retrieved user Notes!" ,Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result.ToString() });
                 }
             }
             catch (Exception ex)
