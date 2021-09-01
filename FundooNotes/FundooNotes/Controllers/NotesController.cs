@@ -69,12 +69,12 @@ namespace FundooNotes.Controllers
         /// <returns>Return success message</returns>
         [HttpPost]
         [Route("api/TrashNote")]
-        public IActionResult TrashNote(int notesId)
+        public IActionResult TrashNote(int notesId,int userID)
         {
             try
             {
                 ////Send user data to manager
-                string result = this.noteManager.TrashNote(notesId);
+                string result = this.noteManager.TrashNote(notesId,userID);
                 if (result == "Note has been moved to Trash!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -91,12 +91,12 @@ namespace FundooNotes.Controllers
         }
         [HttpPost]
         [Route("api/RestoreTrash")]
-        public IActionResult RestoreTrash(int notesId)
+        public IActionResult RestoreTrash(int notesId, int userID)
         {
             try
             {
                 ////Send user data to manager
-                string result = this.noteManager.RestoreTrash(notesId);
+                string result = this.noteManager.RestoreTrash(notesId, userID);
                 if (result == "Note has been restored!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -114,12 +114,12 @@ namespace FundooNotes.Controllers
 
         [HttpPost]
         [Route("api/ArchiveNote")]
-        public IActionResult ArchiveNote(int notesId)
+        public IActionResult ArchiveNote(int notesId, int userID)
         {
             try
             {
                 ////Send user data to manager
-                string result = this.noteManager.ArchiveNote(notesId);
+                string result = this.noteManager.ArchiveNote(notesId, userID);
                 if (result == "Note has been Archieved!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });

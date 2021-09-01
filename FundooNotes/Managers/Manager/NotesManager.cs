@@ -47,12 +47,12 @@ namespace Managers.Manager
             }
         }
 
-        public string TrashNote(int notesId)
+        public string TrashNote(int notesId, int userID)
         {
             try
             {
                 ////Send userdata to Repository and return result true or false
-                return this.repository.TrashNote(notesId);
+                return this.repository.TrashNote(notesId, userID);
             }
             catch (Exception ex)
             {
@@ -60,12 +60,12 @@ namespace Managers.Manager
             }
         }
 
-        public string RestoreTrash(int notesId)
+        public string RestoreTrash(int notesId, int userID)
         {
             try
             {
                 ////Send userdata to Repository and return result true or false
-                return this.repository.RestoreTrash(notesId);
+                return this.repository.RestoreTrash(notesId, userID);
             }
             catch (Exception ex)
             {
@@ -73,12 +73,12 @@ namespace Managers.Manager
             }
         }
 
-        public string ArchiveNote(int notesId)
+        public string ArchiveNote(int notesId, int userID)
         {
             try
             {
                 ////Send userdata to Repository and return result true or false
-                return this.repository.ArchiveNote(notesId);
+                return this.repository.ArchiveNote(notesId, userID);
             }
             catch (Exception ex)
             {

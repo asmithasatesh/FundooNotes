@@ -73,11 +73,11 @@ namespace Repository.Repository
         /// <param name="notesId">The notes identifier.</param>
         /// <returns>Return success Message</returns>
         /// <exception cref="System.Exception">Returns Exception Message</exception>
-        public string TrashNote(int notesId)
+        public string TrashNote(int notesId, int userID)
         {
             try
             {
-                var deleteNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).FirstOrDefault();
+                var deleteNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.UserId == userID)).FirstOrDefault();
                 if(deleteNote == null)
                 {
                     return "Note doesn't Exist!";
@@ -102,11 +102,11 @@ namespace Repository.Repository
         /// <param name="notesId">The notes identifier.</param>
         /// <returns>Return success Message</returns>
         /// <exception cref="System.Exception">Returns exception message</exception>
-        public string RestoreTrash(int notesId)
+        public string RestoreTrash(int notesId, int userID)
         {
             try
             {
-                var restoreNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Trash == true)).FirstOrDefault();
+                var restoreNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Trash == true && x.UserId == userID)).FirstOrDefault();
                 if (restoreNote == null)
                 {
                     return "Note doesn't Exist!";
@@ -125,11 +125,11 @@ namespace Repository.Repository
             }
         }
 
-        public string ArchiveNote(int notesId)
+        public string ArchiveNote(int notesId,int userID)
         {
             try
             {
-                var archiveNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).FirstOrDefault();
+                var archiveNote = this.UserContext.Notes.Where(x => x.NotesId == notesId && x.UserId == userID).FirstOrDefault();
                 if (archiveNote == null)
                 {
                     return "Note doesn't Exist!";
