@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Models
@@ -22,6 +25,9 @@ namespace Models
         /// </value>
         [ForeignKey("RegisterModel")]
         public int UserId { get; set; }
+        public RegisterModel RegisterModel { get; set; }
+
+
         /// <summary>
         /// Gets or sets the title.
         /// </summary>
@@ -80,6 +86,7 @@ namespace Models
         /// </value>
         [DefaultValue(false)]
         public bool Pin { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="NotesModel"/> is trash.
         /// </summary>
@@ -88,5 +95,6 @@ namespace Models
         /// </value>
         [DefaultValue(false)]
         public bool Trash { get; set; }
+
     }
 }

@@ -36,7 +36,8 @@ namespace FundooNotes
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient< IUserManager, UserManager>();
-
+            services.AddTransient<INotesManager, NotesManager>();
+            services.AddTransient<INotesRepository, NotesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
