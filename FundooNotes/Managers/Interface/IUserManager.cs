@@ -18,7 +18,7 @@ namespace Managers.Interface
         /// </summary>
         /// <param name="userData">The user data.</param>
         /// <returns>Return true is successful</returns>
-        public bool Register(RegisterModel userData);
+        public string Register(RegisterModel userData);
 
         /// <summary>
         /// Logins the specified email.
@@ -26,7 +26,7 @@ namespace Managers.Interface
         /// <param name="email">The email.</param>
         /// <param name="password">The password.</param>
         /// <returns>Returns true if successful</returns>
-        public bool Login(string email, string password);
+        public string Login(string email, string password);
 
         /// <summary>
         /// Forgets the password.
@@ -42,5 +42,7 @@ namespace Managers.Interface
         /// <param name="password">The password.</param>
         /// <returns>Return true if successful</returns>
         public bool ResetPassword(string email, string password);
+
+        public string GenerateToken(string email);
     }
 }

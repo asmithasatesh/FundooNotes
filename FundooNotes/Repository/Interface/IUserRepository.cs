@@ -19,7 +19,7 @@ namespace Repository.Interface
         /// </summary>
         /// <param name="userData">The user data.</param>
         /// <returns>Returns true or false</returns>
-        bool Register(RegisterModel userData);
+        string Register(RegisterModel userData);
 
         /// <summary>
         /// Logins the specified email.
@@ -27,7 +27,7 @@ namespace Repository.Interface
         /// <param name="email">The email.</param>
         /// <param name="password">The password.</param>
         /// <returns>Returns true or false</returns>
-        public bool Login(string email, string password);
+        public string Login(string email, string password);
 
         /// <summary>
         /// Forgets the password.
@@ -42,5 +42,7 @@ namespace Repository.Interface
         /// <param name="email">The email.</param>
         /// <returns>Returns true if successful</returns>
         public bool ResetPassword(string email, string password);
+
+        public string GenerateToken(string email);
     }
 }

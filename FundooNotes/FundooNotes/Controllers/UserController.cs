@@ -43,14 +43,14 @@ namespace FundooNotes.Controllers
             try
             {
                 ////Send user data to manager
-                bool result = this.manager.Register(userData);
-                if (result == true)
+                string result = this.manager.Register(userData);
+                if (result == "Registeration Successful")
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Resgisteration Successful" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Resgisteration Unsuccessful" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
@@ -64,26 +64,27 @@ namespace FundooNotes.Controllers
         /// </summary>
         /// <param name="userData">User data</param>
         /// <returns>Returns Response</returns>
-        [HttpGet]
+        [HttpPost]
         [Route("api/login")]
         public IActionResult Login([FromBody] LoginModel userData)
         {
             try
             {
                 ////Send user data to manager
-                bool result = this.manager.Login(userData.Email, userData.Password);
-                if (result == true)
+                string result = this.manager.Login(userData.Email, userData.Password);
+                var userToken = this.manager.GenerateToken(userData.Email);
+                if (result == "Login Successful")
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Login Successful" });
+                    return this.Ok(new { Status = true, Message = result , userData.Email , userToken });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Login Unsuccessful, Email or Password is Incorrecr" });
+                    return this.BadRequest(new { Status = false, Message = result});
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -92,7 +93,7 @@ namespace FundooNotes.Controllers
         /// </summary>
         /// <param name="email">Email Id</param>
         /// <returns>Returns Response</returns>
-        [HttpGet]
+        [HttpPost]
         [Route("api/forgetPassword")]
         public IActionResult ForgetPassword(string email)
         {
