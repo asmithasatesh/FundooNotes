@@ -15,5 +15,6 @@ namespace Repository.Interface
         public string UnArchiveNote(int notesId, int userID);
         public string PinNote(int notesId, int userID);
         public string UnPinNote(int notesId, int userID);
+        public string SetColor(NotesModel notesModel);
     }
 }

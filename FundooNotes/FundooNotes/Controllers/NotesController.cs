@@ -200,5 +200,27 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpPost]
+        [Route("api/SetColor")]
+        public IActionResult SetColor([FromBody] NotesModel noteData)
+        {
+            try
+            {
+                ////Send user data to manager
+                string result = this.noteManager.SetColor(noteData);
+                if (result == "Note color has been Set!")
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

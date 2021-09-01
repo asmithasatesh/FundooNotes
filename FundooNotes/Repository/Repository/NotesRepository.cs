@@ -213,5 +213,24 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+        public string SetColor(NotesModel notesModel)
+        {
+            try
+            {
+                var colorData = this.UserContext.Notes.Where(x => (x.NotesId == notesModel.NotesId && x.UserId == notesModel.UserId)).FirstOrDefault();
+                if (colorData != null)
+                {
+                    colorData.Color = notesModel.Color;
+                    this.UserContext.Notes.Update(colorData);
+                    this.UserContext.SaveChanges();
+                    return "Note color has been Set!";
+                }
+                return "Couldn't set Color";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

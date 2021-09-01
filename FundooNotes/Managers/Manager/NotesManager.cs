@@ -121,5 +121,17 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public string SetColor(NotesModel notesModel)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.SetColor(notesModel);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
