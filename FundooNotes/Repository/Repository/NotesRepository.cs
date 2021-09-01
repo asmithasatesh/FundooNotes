@@ -124,6 +124,27 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+        public string DeleteNote(int notesId, int userID)
+        {
+            try
+            {
+                var deleteNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Trash == true && x.UserId == userID)).FirstOrDefault();
+                if (deleteNote == null)
+                {
+                    return "Note doesn't Exist!";
+                }
+                else
+                {
+                    this.UserContext.Remove(deleteNote);
+                    this.UserContext.SaveChanges();
+                    return "Note has been deleted!";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         public string ArchiveNote(int notesId,int userID)
         {
@@ -232,5 +253,6 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
     }
 }
