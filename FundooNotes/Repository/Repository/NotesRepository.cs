@@ -146,7 +146,28 @@ namespace Repository.Repository
             {
                 throw new Exception(ex.Message);
             }
-
+        }
+        public string UnArchiveNote(int notesId, int userID)
+        {
+            try
+            {
+                var restoreNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Archive == true && x.UserId == userID)).FirstOrDefault();
+                if (restoreNote == null)
+                {
+                    return "Note doesn't Exist!";
+                }
+                else
+                {
+                    restoreNote.Archive = false;
+                    this.UserContext.Update(restoreNote);
+                    this.UserContext.SaveChanges();
+                    return "Note has been unarchived!";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
