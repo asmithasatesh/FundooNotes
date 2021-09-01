@@ -10,5 +10,7 @@ namespace Repository.Interface
         public string CreateNote(NotesModel noteData);
         public List<NotesModel> GetUserNotes(int userId);
         public string TrashNote(int notesId);
+        public string RestoreTrash(int notesId);
+        public string ArchiveNote(int notesId);
     }
 }

@@ -59,5 +59,31 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public string RestoreTrash(int notesId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.RestoreTrash(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string ArchiveNote(int notesId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.ArchiveNote(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

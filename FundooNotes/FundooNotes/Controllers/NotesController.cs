@@ -89,5 +89,50 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpPost]
+        [Route("api/RestoreTrash")]
+        public IActionResult RestoreTrash(int notesId)
+        {
+            try
+            {
+                ////Send user data to manager
+                string result = this.noteManager.RestoreTrash(notesId);
+                if (result == "Note has been restored!")
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("api/ArchiveNote")]
+        public IActionResult ArchiveNote(int notesId)
+        {
+            try
+            {
+                ////Send user data to manager
+                string result = this.noteManager.ArchiveNote(notesId);
+                if (result == "Note has been Archieved!")
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

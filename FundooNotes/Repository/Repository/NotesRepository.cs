@@ -96,5 +96,57 @@ namespace Repository.Repository
             }
         }
 
+        /// <summary>
+        /// Restores the trash.
+        /// </summary>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <returns>Return success Message</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
+        public string RestoreTrash(int notesId)
+        {
+            try
+            {
+                var restoreNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Trash == true)).FirstOrDefault();
+                if (restoreNote == null)
+                {
+                    return "Note doesn't Exist!";
+                }
+                else
+                {
+                    restoreNote.Trash = false;
+                    this.UserContext.Update(restoreNote);
+                    this.UserContext.SaveChanges();
+                    return "Note has been restored!";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string ArchiveNote(int notesId)
+        {
+            try
+            {
+                var archiveNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).FirstOrDefault();
+                if (archiveNote == null)
+                {
+                    return "Note doesn't Exist!";
+                }
+                else
+                {
+                    archiveNote.Archive = true;
+                    this.UserContext.Update(archiveNote);
+                    this.UserContext.SaveChanges();
+                    return "Note has been Archieved!";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
     }
 }
