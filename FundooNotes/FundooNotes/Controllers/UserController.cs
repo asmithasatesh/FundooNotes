@@ -75,7 +75,7 @@ namespace FundooNotes.Controllers
                 var userToken = this.manager.GenerateToken(userData.Email);
                 if (result == "Login Successful")
                 {
-                    return this.Ok(new { Status = true, Message = result , userData.Email , userToken});
+                    return this.Ok(new { Status = true, Message = result , userData.Email , userToken });
                 }
                 else
                 {

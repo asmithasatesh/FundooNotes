@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Managers.Interface
 {
-    class INotesManager
+    public interface INotesManager
     {
     }
 }
