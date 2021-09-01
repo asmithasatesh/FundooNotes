@@ -66,5 +66,35 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Move to Trash
+        /// </summary>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <returns>Return success Message</returns>
+        /// <exception cref="System.Exception">Returns Exception Message</exception>
+        public string TrashNote(int notesId)
+        {
+            try
+            {
+                var deleteNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).FirstOrDefault();
+                if(deleteNote == null)
+                {
+                    return "Note doesn't Exist!";
+                }
+                else
+                {
+                    deleteNote.Trash = true;
+                    this.UserContext.Update(deleteNote);
+                    this.UserContext.SaveChanges();
+                    return "Note has been moved to Trash!";
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

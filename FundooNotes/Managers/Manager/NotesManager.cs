@@ -46,5 +46,18 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public string TrashNote(int notesId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.TrashNote(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

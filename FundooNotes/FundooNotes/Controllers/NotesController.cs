@@ -61,5 +61,33 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Trashes the note.
+        /// </summary>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <returns>Return success message</returns>
+        [HttpPost]
+        [Route("api/TrashNote")]
+        public IActionResult TrashNote(int notesId)
+        {
+            try
+            {
+                ////Send user data to manager
+                string result = this.noteManager.TrashNote(notesId);
+                if (result == "Note has been moved to Trash!")
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
