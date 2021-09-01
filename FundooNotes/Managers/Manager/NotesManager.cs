@@ -133,5 +133,17 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public string DeleteNote(int notesId, int userID)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.DeleteNote(notesId, userID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
