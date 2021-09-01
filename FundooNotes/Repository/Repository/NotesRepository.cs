@@ -169,5 +169,49 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+        public string PinNote(int notesId, int userID)
+        {
+            try
+            {
+                var pinNote = this.UserContext.Notes.Where(x => x.NotesId == notesId && x.UserId == userID).FirstOrDefault();
+                if (pinNote == null)
+                {
+                    return "Note doesn't Exist!";
+                }
+                else
+                {
+                    pinNote.Pin = true;
+                    this.UserContext.Update(pinNote);
+                    this.UserContext.SaveChanges();
+                    return "Note has been Pinned!";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string UnPinNote(int notesId, int userID)
+        {
+            try
+            {
+                var unPinNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Pin == true && x.UserId == userID)).FirstOrDefault();
+                if (unPinNote == null)
+                {
+                    return "Note doesn't Exist!";
+                }
+                else
+                {
+                    unPinNote.Pin = false;
+                    this.UserContext.Update(unPinNote);
+                    this.UserContext.SaveChanges();
+                    return "Note has been removed from Pin!";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

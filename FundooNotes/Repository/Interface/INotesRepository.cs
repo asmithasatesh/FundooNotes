@@ -13,5 +13,7 @@ namespace Repository.Interface
         public string RestoreTrash(int notesId, int userID);
         public string ArchiveNote(int notesId, int userID);
         public string UnArchiveNote(int notesId, int userID);
+        public string PinNote(int notesId, int userID);
+        public string UnPinNote(int notesId, int userID);
     }
 }

@@ -97,5 +97,29 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public string PinNote(int notesId, int userID)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.PinNote(notesId, userID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string UnPinNote(int notesId, int userID)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.UnPinNote(notesId, userID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
