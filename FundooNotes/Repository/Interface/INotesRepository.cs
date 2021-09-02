@@ -9,14 +9,16 @@ namespace Repository.Interface
     {
         public string CreateNote(NotesModel noteData);
         public List<NotesModel> GetUserNotes(int userId);
-        public string TrashNote(int notesId, int userID);
-        public string RestoreTrash(int notesId, int userID);
-        public string DeleteNote(int notesId, int userID);
-        public string ArchiveNote(int notesId, int userID);
-        public string UnArchiveNote(int notesId, int userID);
-        public string PinNote(int notesId, int userID);
-        public string UnPinNote(int notesId, int userID);
+        public string TrashNote(int notesId);
+        public string RestoreTrash(int notesId);
+        public string DeleteNote(int notesId);
+        public string ArchiveNote(int notesId);
+        public string UnArchiveNote(int notesId);
+        public string PinNote(int notesId);
+        public string UnPinNote(int notesId);
         public string SetColor(NotesModel notesModel);
+        public string SetReminder(NotesModel notesModel);
+        public string RemoveReminder(NotesModel notesModel);
 
     }
 }
