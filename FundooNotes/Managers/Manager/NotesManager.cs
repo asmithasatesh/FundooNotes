@@ -169,5 +169,29 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public string UpdateNote(NotesModel notesModel)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.UpdateNote(notesModel);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string EmptyTrash(int UserId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.EmptyTrash(UserId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

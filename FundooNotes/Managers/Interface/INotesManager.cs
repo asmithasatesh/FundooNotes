@@ -19,5 +19,7 @@ namespace Managers.Interface
         public string SetColor(NotesModel notesModel);
         public string SetReminder(NotesModel notesModel);
         public string RemoveReminder(NotesModel notesModel);
+        public string UpdateNote(NotesModel notesModel);
+        public string EmptyTrash(int UserId);
     }
 }

@@ -29,7 +29,7 @@ namespace Repository.Repository
         {
             try
             {
-                if (noteData != null && (noteData.Title!= null || noteData.Description != null))
+                if (noteData.Title!= null || noteData.Description != null)
                 {
                     //// Add data to Dbset
                     this.UserContext.Notes.Add(noteData);
@@ -85,6 +85,9 @@ namespace Repository.Repository
                 else
                 {
                     deleteNote.Trash = true;
+                    deleteNote.Archive = false;
+                    deleteNote.Remainder = null;
+                    deleteNote.Pin = false;
                     this.UserContext.Update(deleteNote);
                     this.UserContext.SaveChanges();
                     return "Note has been moved to Trash!";
@@ -128,17 +131,32 @@ namespace Repository.Repository
         {
             try
             {
-                var deleteNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId)).FirstOrDefault();
+                var deleteNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Trash == true)).FirstOrDefault();
                 if (deleteNote == null)
                 {
                     return "Note doesn't Exist!";
                 }
                 else
                 {
-                    this.UserContext.Remove(deleteNote);
+                    this.UserContext.Notes.Remove(deleteNote);
                     this.UserContext.SaveChanges();
                     return "Note has been deleted!";
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string EmptyTrash(int userId)
+        {
+            try
+            {
+                var noteList = this.UserContext.Notes.Where(x => x.UserId == userId && x.Trash == true);
+                this.UserContext.Notes.RemoveRange(noteList);
+                this.UserContext.SaveChanges();
+                return "Trash has been cleared!";
             }
             catch (Exception ex)
             {
@@ -292,5 +310,25 @@ namespace Repository.Repository
             }
         }
 
+        public string UpdateNote(NotesModel notesModel)
+        {
+            try
+            {
+                var updateNote = this.UserContext.Notes.Where(x => (x.NotesId == notesModel.NotesId)).FirstOrDefault();
+                if (updateNote != null)
+                {
+                    updateNote.Title = notesModel.Title;
+                    updateNote.Description = notesModel.Description;
+                    this.UserContext.Notes.Update(updateNote);
+                    this.UserContext.SaveChanges();
+                    return "Updated Note!";
+                }
+                return "Couldn't update";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

@@ -51,7 +51,7 @@ namespace FundooNotes.Controllers
                 List<NotesModel> result = this.noteManager.GetUserNotes(UserId);
                 if (result.Count!=0)
                 {
-                    return this.Ok(new { Status = true, Message = "Retrieved user Notes!" ,Data = result });
+                    return this.Ok(new { Status = true, Message = "Retrieved user Notes!" , Data = result });
                 }
                 else
                 {
@@ -69,7 +69,7 @@ namespace FundooNotes.Controllers
         /// </summary>
         /// <param name="notesId">The notes identifier.</param>
         /// <returns>Return success message</returns>
-        [HttpPost]
+        [HttpPut]
         [Route("api/TrashNote")]
         public IActionResult TrashNote(int notesId)
         {
@@ -91,7 +91,7 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpPut]
         [Route("api/RestoreTrash")]
         public IActionResult RestoreTrash(int notesId)
         {
@@ -113,7 +113,7 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpDelete]
         [Route("api/DeleteNote")]
         public IActionResult DeleteNote(int notesId)
         {
@@ -135,8 +135,30 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpDelete]
+        [Route("api/EmptyTrash")]
+        public IActionResult EmptyTrash(int UserId)
+        {
+            try
+            {
+                ////Send user data to manager
+                string result = this.noteManager.EmptyTrash(UserId);
+                if (result == "Trash has been cleared!")
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
 
-        [HttpPost]
+        [HttpPut]
         [Route("api/ArchiveNote")]
         public IActionResult ArchiveNote(int notesId)
         {
@@ -158,7 +180,7 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpPut]
         [Route("api/UnArchiveNote")]
         public IActionResult UnArchiveNote(int notesId)
         {
@@ -180,7 +202,7 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpPut]
         [Route("api/PinNote")]
         public IActionResult PinNote(int notesId)
         {
@@ -202,7 +224,7 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpPut]
         [Route("api/UnPinNote")]
         public IActionResult UnPinNote(int notesId)
         {
@@ -224,7 +246,7 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpPut]
         [Route("api/SetColor")]
         public IActionResult SetColor([FromBody] NotesModel noteData)
         {
@@ -246,7 +268,7 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpPut]
         [Route("api/SetReminder")]
         public IActionResult SetReminder([FromBody] NotesModel noteData)
         {
@@ -268,7 +290,8 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+
+        [HttpPut]
         [Route("api/RemoveReminder")]
         public IActionResult RemoveReminder([FromBody] NotesModel noteData)
         {
@@ -277,6 +300,29 @@ namespace FundooNotes.Controllers
                 ////Send user data to manager
                 string result = this.noteManager.RemoveReminder(noteData);
                 if (result == "Reminder has been Removed!")
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("api/ UpdateNote")]
+        public IActionResult UpdateNote([FromBody] NotesModel noteData)
+        {
+            try
+            {
+                ////Send user data to manager
+                string result = this.noteManager.UpdateNote(noteData);
+                if (result == "Updated Note!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
