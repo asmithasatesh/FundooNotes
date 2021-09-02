@@ -61,7 +61,7 @@ namespace Managers.Manager
         /// Returns true if successful
         /// </returns>
         /// <exception cref="System.Exception">Throw exception</exception>
-        public string Login(string email, string password)
+        public RegisterModel Login(string email, string password)
         {
             try
             {

@@ -71,15 +71,15 @@ namespace FundooNotes.Controllers
             try
             {
                 ////Send user data to manager
-                string result = this.manager.Login(userData.Email, userData.Password);
+                RegisterModel result = this.manager.Login(userData.Email, userData.Password);
                 var userToken = this.manager.GenerateToken(userData.Email);
-                if (result == "Login Successful")
+                if (result!= null)
                 {
-                    return this.Ok(new { Status = true, Message = result , userData.Email , userToken });
+                    return this.Ok(new { Status = true, Message = "Login Successful!", result.FirstName ,result.LastName , result.Email , userToken });
                 }
                 else
                 {
-                    return this.BadRequest(new { Status = false, Message = result});
+                    return this.BadRequest(new { Status = false, Message = "Incorrect Email or Password" , Data=result });
                 }
             }
             catch (Exception ex)

@@ -84,21 +84,14 @@ namespace Repository.Repository
         /// <param name="email">Email Id</param>
         /// <param name="password">Password for user email</param>
         /// <returns>Return true if email id and Login matches</returns>
-        public string Login(string email, string password)
+        public RegisterModel Login(string email, string password)
         {
             try
             {
                 string encodedPassword = this.EncryptPassword(password);
                 var login = this.UserContext.Users
                     .Where(x => (x.Email == email && x.Password == encodedPassword)).FirstOrDefault();
-                if (login != null)
-                {
-                    return "Login Successful";
-                }
-                else
-                {
-                    return "Login Unsuccessful, Email or Password is Incorrecr";
-                }
+                  return login;
             }
             catch (ArgumentNullException ex)
             {
@@ -106,6 +99,11 @@ namespace Repository.Repository
             }
         }
 
+        /// <summary>
+        /// Generates the token.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns>Returns a token string</returns>
         public string GenerateToken(string email)
         {
             var secret = this.Configuration["Secret"];
