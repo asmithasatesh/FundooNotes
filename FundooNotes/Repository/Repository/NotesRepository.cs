@@ -330,5 +330,55 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+        public List<NotesModel> GetTrash(int userId)
+        {
+            try
+            {
+                List<NotesModel> noteList = this.UserContext.Notes.Where(x => x.UserId == userId && x.Trash == true).ToList();
+                if (noteList.Count != 0)
+                {
+                    return noteList;
+                }
+                return default;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+        public List<NotesModel> GetReminder(int userId)
+        {
+            try
+            {
+                List<NotesModel> noteList = this.UserContext.Notes.Where(x => x.UserId == userId && x.Remainder != null).ToList();
+                if (noteList.Count != 0)
+                {
+                    return noteList;
+                }
+                return default;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+        public List<NotesModel> GetArchive(int userId)
+        {
+            try
+            {
+                List<NotesModel> noteList = this.UserContext.Notes.Where(x => x.UserId == userId && x.Archive == true).ToList();
+                if (noteList.Count != 0)
+                {
+                    return noteList;
+                }
+                return default;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

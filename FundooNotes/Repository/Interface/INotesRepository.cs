@@ -21,5 +21,8 @@ namespace Repository.Interface
         public string RemoveReminder(NotesModel notesModel);
         public string UpdateNote(NotesModel notesModel);
         public string EmptyTrash(int UserId);
+        public List<NotesModel> GetTrash(int userId);
+        public List<NotesModel> GetReminder(int userId);
+        public List<NotesModel> GetArchive(int userId);
     }
 }

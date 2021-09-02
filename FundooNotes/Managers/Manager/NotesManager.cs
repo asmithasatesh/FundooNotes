@@ -193,5 +193,41 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public List<NotesModel> GetTrash(int userId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.GetTrash(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<NotesModel> GetReminder(int userId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.GetReminder(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<NotesModel> GetArchive(int userId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.GetArchive(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

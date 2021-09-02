@@ -336,5 +336,75 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        //Retrieve user notes
+        [HttpGet]
+        [Route("api/GetReminder")]
+        public IActionResult GetReminder(int UserId)
+        {
+            try
+            {
+                ////Send user data to manager
+                List<NotesModel> result = this.noteManager.GetReminder(UserId);
+                if (result.Count != 0)
+                {
+                    return this.Ok(new { Status = true, Message = "Retrieved Reminder Notes!", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result.ToString() });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+        //Retrieve user notes
+        [HttpGet]
+        [Route("api/GetTrash")]
+        public IActionResult GetTrash(int UserId)
+        {
+            try
+            {
+                ////Send user data to manager
+                List<NotesModel> result = this.noteManager.GetTrash(UserId);
+                if (result.Count != 0)
+                {
+                    return this.Ok(new { Status = true, Message = "Retrieved Trash Notes!", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result.ToString() });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+        //Retrieve user notes
+        [HttpGet]
+        [Route("api/GetArchive")]
+        public IActionResult GetArchive(int UserId)
+        {
+            try
+            {
+                ////Send user data to manager
+                List<NotesModel> result = this.noteManager.GetArchive(UserId);
+                if (result.Count != 0)
+                {
+                    return this.Ok(new { Status = true, Message = "Retrieved Archived Notes!", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result.ToString() });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

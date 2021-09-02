@@ -9,6 +9,9 @@ namespace Managers.Interface
     {
         public string CreateNote(NotesModel noteData);
         public List<NotesModel> GetUserNotes(int userId);
+        public List<NotesModel> GetTrash(int userId);
+        public List<NotesModel> GetReminder(int userId);
+        public List<NotesModel> GetArchive(int userId);
         public string TrashNote(int notesId);
         public string RestoreTrash(int notesId);
         public string DeleteNote(int notesId);
