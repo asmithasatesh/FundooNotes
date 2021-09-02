@@ -64,13 +64,13 @@ namespace FundooNotes.Controllers
             {
                 ////Send user data to manager
                 List<NotesModel> result = this.noteManager.GetUserNotes(UserId);
-                if (result.Count!=0)
+                if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Retrieved user Notes!" , Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result.ToString() });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "User doesn't have any notes!" });
                 }
             }
             catch (Exception ex)
@@ -407,7 +407,7 @@ namespace FundooNotes.Controllers
             }
         }
 
-        //Retrieve user notes
+
         /// <summary>
         /// Get asll Reminder notes
         /// </summary>
@@ -421,13 +421,13 @@ namespace FundooNotes.Controllers
             {
                 ////Send user data to manager
                 List<NotesModel> result = this.noteManager.GetReminder(UserId);
-                if (result.Count != 0)
+                if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Retrieved Reminder Notes!", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result.ToString() });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "No reminder has been set!" });
                 }
             }
             catch (Exception ex)
@@ -435,7 +435,7 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-        //Retrieve user notes
+
 
         /// <summary>
         /// Get all Trashed notes
@@ -450,13 +450,13 @@ namespace FundooNotes.Controllers
             {
                 ////Send user data to manager
                 List<NotesModel> result = this.noteManager.GetTrash(UserId);
-                if (result.Count != 0)
+                if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Retrieved Trash Notes!", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result.ToString() });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Trash does not have any notes!" });
                 }
             }
             catch (Exception ex)
@@ -464,7 +464,6 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-        //Retrieve user notes
 
         /// <summary>
         /// Get all Archived notes
@@ -479,13 +478,13 @@ namespace FundooNotes.Controllers
             {
                 ////Send user data to manager
                 List<NotesModel> result = this.noteManager.GetArchive(UserId);
-                if (result.Count != 0)
+                if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Retrieved Archived Notes!", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result.ToString() });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Archive doesn't contain any notes!" });
                 }
             }
             catch (Exception ex)
