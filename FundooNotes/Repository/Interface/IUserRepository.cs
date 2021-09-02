@@ -27,7 +27,7 @@ namespace Repository.Interface
         /// <param name="email">The email.</param>
         /// <param name="password">The password.</param>
         /// <returns>Returns true or false</returns>
-        public string Login(string email, string password);
+        public RegisterModel Login(string email, string password);
 
         /// <summary>
         /// Forgets the password.

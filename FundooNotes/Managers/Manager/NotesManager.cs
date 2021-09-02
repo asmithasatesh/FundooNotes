@@ -47,12 +47,12 @@ namespace Managers.Manager
             }
         }
 
-        public string TrashNote(int notesId, int userID)
+        public string TrashNote(int notesId)
         {
             try
             {
                 ////Send userdata to Repository and return result true or false
-                return this.repository.TrashNote(notesId, userID);
+                return this.repository.TrashNote(notesId);
             }
             catch (Exception ex)
             {
@@ -60,12 +60,12 @@ namespace Managers.Manager
             }
         }
 
-        public string RestoreTrash(int notesId, int userID)
+        public string RestoreTrash(int notesId)
         {
             try
             {
                 ////Send userdata to Repository and return result true or false
-                return this.repository.RestoreTrash(notesId, userID);
+                return this.repository.RestoreTrash(notesId);
             }
             catch (Exception ex)
             {
@@ -73,48 +73,48 @@ namespace Managers.Manager
             }
         }
 
-        public string ArchiveNote(int notesId, int userID)
+        public string ArchiveNote(int notesId)
         {
             try
             {
                 ////Send userdata to Repository and return result true or false
-                return this.repository.ArchiveNote(notesId, userID);
+                return this.repository.ArchiveNote(notesId);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public string UnArchiveNote(int notesId, int userID)
+        public string UnArchiveNote(int notesId)
         {
             try
             {
                 ////Send userdata to Repository and return result true or false
-                return this.repository.UnArchiveNote(notesId, userID);
+                return this.repository.UnArchiveNote(notesId);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public string PinNote(int notesId, int userID)
+        public string PinNote(int notesId)
         {
             try
             {
                 ////Send userdata to Repository and return result true or false
-                return this.repository.PinNote(notesId, userID);
+                return this.repository.PinNote(notesId);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public string UnPinNote(int notesId, int userID)
+        public string UnPinNote(int notesId)
         {
             try
             {
                 ////Send userdata to Repository and return result true or false
-                return this.repository.UnPinNote(notesId, userID);
+                return this.repository.UnPinNote(notesId);
             }
             catch (Exception ex)
             {
@@ -133,12 +133,96 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
-        public string DeleteNote(int notesId, int userID)
+        public string DeleteNote(int notesId)
         {
             try
             {
                 ////Send userdata to Repository and return result true or false
-                return this.repository.DeleteNote(notesId, userID);
+                return this.repository.DeleteNote(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string SetReminder(NotesModel notesModel)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.SetReminder(notesModel);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string RemoveReminder(NotesModel notesModel)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.RemoveReminder(notesModel);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string UpdateNote(NotesModel notesModel)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.UpdateNote(notesModel);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string EmptyTrash(int UserId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.EmptyTrash(UserId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<NotesModel> GetTrash(int userId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.GetTrash(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<NotesModel> GetReminder(int userId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.GetReminder(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<NotesModel> GetArchive(int userId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.GetArchive(userId);
             }
             catch (Exception ex)
             {
