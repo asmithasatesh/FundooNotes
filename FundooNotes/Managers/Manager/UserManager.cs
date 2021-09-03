@@ -116,6 +116,14 @@ namespace Managers.Manager
             }
         }
 
+        /// <summary>
+        /// Generates the token.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns>
+        /// Returns token string
+        /// </returns>
+        /// <exception cref="System.Exception">Returns exception</exception>
         public string GenerateToken(string email)
         {
             try

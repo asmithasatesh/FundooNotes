@@ -1,13 +1,22 @@
-﻿using Models;
-using Repository.Context;
-using Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NotesRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Asmitha Satesh"/>
+// ----------------------------------------------------------------------------------------------------------
 namespace Repository.Repository
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Models;
+    using global::Repository.Context;
+    using global::Repository.Interface;
+
+    /// <summary>
+    /// Defines method/business logic for all API call
+    /// </summary>
+    /// <seealso cref="Repository.Interface.INotesRepository" />
     public class NotesRepository : INotesRepository
     {
         /// <summary>
@@ -16,20 +25,25 @@ namespace Repository.Repository
         public readonly UserContext UserContext;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserRepository"/> class
+        /// Initializes a new instance of the <see cref="NotesRepository"/> class.
         /// </summary>
-        /// <param name="userContext">User Data</param>
-        /// <returns> Returns true if data added otherwise return false</returns>
+        /// <param name="userContext">The user context.</param>
         public NotesRepository(UserContext userContext)
         {
             this.UserContext = userContext;
         }
 
+        /// <summary>
+        /// Creates the note.
+        /// </summary>
+        /// <param name="noteData">The note data.</param>
+        /// <returns>Returns success message</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
         public string CreateNote(NotesModel noteData)
         {
             try
             {
-                if (noteData.Title!= null || noteData.Description != null)
+                if (noteData.Title != null || noteData.Description != null)
                 {
                     //// Add data to Dbset
                     this.UserContext.Notes.Add(noteData);
@@ -44,6 +58,7 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
         /// <summary>
         /// Gets the user notes.
         /// </summary>
@@ -59,9 +74,10 @@ namespace Repository.Repository
                 {
                     return noteList;
                 }
+
                 return default;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -78,14 +94,13 @@ namespace Repository.Repository
             try
             {
                 var deleteNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId)).FirstOrDefault();
-                if(deleteNote == null)
+                if (deleteNote == null)
                 {
                     return "Note doesn't Exist!";
                 }
                 else
                 {
                     deleteNote.Trash = true;
-                    deleteNote.Archive = false;
                     deleteNote.Remainder = null;
                     deleteNote.Pin = false;
                     this.UserContext.Update(deleteNote);
@@ -93,7 +108,7 @@ namespace Repository.Repository
                     return "Note has been moved to Trash!";
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -127,6 +142,13 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Deletes the note.
+        /// </summary>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <returns>Returns success message</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
         public string DeleteNote(int notesId)
         {
             try
@@ -149,6 +171,12 @@ namespace Repository.Repository
             }
         }
 
+        /// <summary>
+        /// Empties the trash.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>Returns success message</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
         public string EmptyTrash(int userId)
         {
             try
@@ -164,11 +192,17 @@ namespace Repository.Repository
             }
         }
 
+        /// <summary>
+        /// Archives the note.
+        /// </summary>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <returns>Returns success message</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
         public string ArchiveNote(int notesId)
         {
             try
             {
-                var archiveNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).FirstOrDefault();
+                NotesModel archiveNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).FirstOrDefault();
                 if (archiveNote == null)
                 {
                     return "Note doesn't Exist!";
@@ -186,11 +220,18 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Restore the archive note.
+        /// </summary>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <returns>Returns success message</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
         public string UnArchiveNote(int notesId)
         {
             try
             {
-                var restoreNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Archive == true)).FirstOrDefault();
+                NotesModel restoreNote = this.UserContext.Notes.Where(x => x.NotesId == notesId && x.Archive == true).FirstOrDefault();
                 if (restoreNote == null)
                 {
                     return "Note doesn't Exist!";
@@ -208,11 +249,18 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Pins the note.
+        /// </summary>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <returns>Returns success message</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
         public string PinNote(int notesId)
         {
             try
             {
-                var pinNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).FirstOrDefault();
+                NotesModel pinNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).FirstOrDefault();
                 if (pinNote == null)
                 {
                     return "Note doesn't Exist!";
@@ -230,19 +278,26 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Restore the pin note.
+        /// </summary>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <returns>Returns success message</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
         public string UnPinNote(int notesId)
         {
             try
             {
-                var unPinNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Pin == true)).FirstOrDefault();
-                if (unPinNote == null)
+                NotesModel removePin = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Pin == true)).FirstOrDefault();
+                if (removePin == null)
                 {
                     return "Note doesn't Exist!";
                 }
                 else
                 {
-                    unPinNote.Pin = false;
-                    this.UserContext.Update(unPinNote);
+                    removePin.Pin = false;
+                    this.UserContext.Update(removePin);
                     this.UserContext.SaveChanges();
                     return "Note has been removed from Pin!";
                 }
@@ -252,6 +307,13 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Sets the color.
+        /// </summary>
+        /// <param name="notesModel">The notes model.</param>
+        /// <returns>Return success message</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
         public string SetColor(NotesModel notesModel)
         {
             try
@@ -264,6 +326,7 @@ namespace Repository.Repository
                     this.UserContext.SaveChanges();
                     return "Note color has been Set!";
                 }
+
                 return "Couldn't set Color";
             }
             catch (Exception ex)
@@ -271,6 +334,13 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Sets the reminder.
+        /// </summary>
+        /// <param name="notesModel">The notes model.</param>
+        /// <returns>Returns success message</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
         public string SetReminder(NotesModel notesModel)
         {
             try
@@ -283,6 +353,7 @@ namespace Repository.Repository
                     this.UserContext.SaveChanges();
                     return "Reminder has been Set!";
                 }
+
                 return "Couldn't set Reminder";
             }
             catch (Exception ex)
@@ -290,6 +361,13 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Removes the reminder.
+        /// </summary>
+        /// <param name="notesModel">The notes model.</param>
+        /// <returns>Returns success message</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
         public string RemoveReminder(NotesModel notesModel)
         {
             try
@@ -302,6 +380,7 @@ namespace Repository.Repository
                     this.UserContext.SaveChanges();
                     return "Reminder has been Removed!";
                 }
+
                 return "Couldn't remove Reminder";
             }
             catch (Exception ex)
@@ -310,6 +389,12 @@ namespace Repository.Repository
             }
         }
 
+        /// <summary>
+        /// Updates the note.
+        /// </summary>
+        /// <param name="notesModel">The notes model.</param>
+        /// <returns>Returns success message</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
         public string UpdateNote(NotesModel notesModel)
         {
             try
@@ -323,6 +408,7 @@ namespace Repository.Repository
                     this.UserContext.SaveChanges();
                     return "Updated Note!";
                 }
+
                 return "Couldn't update";
             }
             catch (Exception ex)
@@ -330,6 +416,13 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Gets the trash.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>Returns list of trash</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
         public List<NotesModel> GetTrash(int userId)
         {
             try
@@ -339,14 +432,21 @@ namespace Repository.Repository
                 {
                     return noteList;
                 }
+
                 return default;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
         }
+
+        /// <summary>
+        /// Gets the reminder.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>Returns List of Reminders</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
         public List<NotesModel> GetReminder(int userId)
         {
             try
@@ -356,23 +456,31 @@ namespace Repository.Repository
                 {
                     return noteList;
                 }
+
                 return default;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
         }
+
+        /// <summary>
+        /// Gets the archive.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>Returns List of archive</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
         public List<NotesModel> GetArchive(int userId)
         {
             try
             {
-                List<NotesModel> noteList = this.UserContext.Notes.Where(x => x.UserId == userId && x.Archive == true).ToList();
+                List<NotesModel> noteList = this.UserContext.Notes.Where(x => x.UserId == userId && x.Archive == true && x.Trash == false).ToList();
                 if (noteList.Count != 0)
                 {
                     return noteList;
                 }
+
                 return default;
             }
             catch (Exception ex)

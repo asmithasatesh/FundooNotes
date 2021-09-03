@@ -37,12 +37,18 @@ namespace Repository.Interface
         public bool ForgetPassword(string email);
 
         /// <summary>
-        /// Forgets the password.
+        /// Resets the password.
         /// </summary>
         /// <param name="email">The email.</param>
-        /// <returns>Returns true if successful</returns>
+        /// <param name="password">The password.</param>
+        /// <returns>Returns true or false</returns>
         public bool ResetPassword(string email, string password);
 
+        /// <summary>
+        /// Generates the token.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns>returns token string</returns>
         public string GenerateToken(string email);
     }
 }
