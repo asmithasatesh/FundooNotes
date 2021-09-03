@@ -47,7 +47,7 @@ namespace FundooNotes.Controllers
             {
                 ////Send user data to manager
                   string result = this.noteManager.CreateNote(noteData);
-                if (result == "Note has been created!")
+                if (result == "Note created!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
@@ -90,6 +90,7 @@ namespace FundooNotes.Controllers
             }
         }
 
+
         /// <summary>
         /// Trashes the note.
         /// </summary>
@@ -103,7 +104,7 @@ namespace FundooNotes.Controllers
             {
                 ////Send user data to manager
                 string result = this.noteManager.TrashNote(notesId);
-                if (result == "Note has been moved to Trash!")
+                if (result != "Note doesn't Exist!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
@@ -131,7 +132,7 @@ namespace FundooNotes.Controllers
             {
                 ////Send user data to manager
                 string result = this.noteManager.RestoreTrash(notesId);
-                if (result == "Note has been restored!")
+                if (result == "Note restored")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
@@ -159,7 +160,7 @@ namespace FundooNotes.Controllers
             {
                 ////Send user data to manager
                 string result = this.noteManager.DeleteNote(notesId);
-                if (result == "Note has been deleted!")
+                if (result == "Note deleted!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
@@ -215,7 +216,7 @@ namespace FundooNotes.Controllers
             {
                 ////Send user data to manager
                 string result = this.noteManager.ArchiveNote(notesId);
-                if (result == "Note has been Archieved!")
+                if (result != "Note doesn't Exist!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
@@ -243,7 +244,7 @@ namespace FundooNotes.Controllers
             {
                 ////Send user data to manager
                 string result = this.noteManager.UnArchiveNote(notesId);
-                if (result == "Note has been unarchived!")
+                if (result == "Note unarchived")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
@@ -271,7 +272,7 @@ namespace FundooNotes.Controllers
             {
                 ////Send user data to manager
                 string result = this.noteManager.PinNote(notesId);
-                if (result == "Note has been Pinned!")
+                if (result != "Note doesn't Exist!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
@@ -383,7 +384,7 @@ namespace FundooNotes.Controllers
             {
                 ////Send user data to manager
                 string result = this.noteManager.RemoveReminder(noteData);
-                if (result == "Reminder has been Removed!")
+                if (result == "Reminder deleted")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }

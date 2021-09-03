@@ -48,10 +48,10 @@ namespace Repository.Repository
                     //// Add data to Dbset
                     this.UserContext.Notes.Add(noteData);
                     this.UserContext.SaveChanges();
-                    return "Note has been created!";
+                    return "Note created!";
                 }
 
-                return "No data given to add note";
+                return "Need Title or description to add note";
             }
             catch (ArgumentNullException ex)
             {
@@ -94,19 +94,25 @@ namespace Repository.Repository
             try
             {
                 var deleteNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId)).FirstOrDefault();
+                string message = "";
                 if (deleteNote == null)
                 {
-                    return "Note doesn't Exist!";
+                    message = "Note doesn't Exist!";
                 }
                 else
                 {
                     deleteNote.Trash = true;
                     deleteNote.Remainder = null;
-                    deleteNote.Pin = false;
+                    if(deleteNote.Pin == true)
+                    {
+                        deleteNote.Pin = false;
+                        message = "Note unpinned and trashed";
+                    }
                     this.UserContext.Update(deleteNote);
                     this.UserContext.SaveChanges();
-                    return "Note has been moved to Trash!";
+                    return "Note trashed";
                 }
+                return message;
             }
             catch (Exception ex)
             {
@@ -134,7 +140,7 @@ namespace Repository.Repository
                     restoreNote.Trash = false;
                     this.UserContext.Update(restoreNote);
                     this.UserContext.SaveChanges();
-                    return "Note has been restored!";
+                    return "Note restored";
                 }
             }
             catch (Exception ex)
@@ -162,7 +168,7 @@ namespace Repository.Repository
                 {
                     this.UserContext.Notes.Remove(deleteNote);
                     this.UserContext.SaveChanges();
-                    return "Note has been deleted!";
+                    return "Note deleted!";
                 }
             }
             catch (Exception ex)
@@ -211,7 +217,7 @@ namespace Repository.Repository
                 else
                 {
                     archiveNote.Archive = true;
-                    message = "Note has been Archieved!";
+                    message = "Note archived";
                     if (archiveNote.Pin == true)
                     {
                         archiveNote.Pin = false;
@@ -248,7 +254,7 @@ namespace Repository.Repository
                     restoreNote.Archive = false;
                     this.UserContext.Update(restoreNote);
                     this.UserContext.SaveChanges();
-                    return "Note has been unarchived!";
+                    return "Note unarchived";
                 }
             }
             catch (Exception ex)
@@ -392,7 +398,7 @@ namespace Repository.Repository
                     reminderData.Remainder = null;
                     this.UserContext.Notes.Update(reminderData);
                     this.UserContext.SaveChanges();
-                    return "Reminder has been Removed!";
+                    return "Reminder deleted";
                 }
 
                 return "Couldn't remove Reminder";

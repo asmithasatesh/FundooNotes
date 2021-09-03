@@ -54,12 +54,12 @@ namespace FundooNotes.Controllers
                 string result = this.manager.Register(userData);
                 if (result == "Registeration Successful")
                 {
-                    this.logger.LogInformation(userData.FirstName+" "+userData.LastName+"has been added successfully!!");
+                    this.logger.LogInformation(userData.FirstName+" "+userData.LastName+" has been added successfully!!");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
-                    this.logger.LogInformation("User registeration Unsuccessful for user"+ userData.FirstName + " " + userData.LastName);
+                    this.logger.LogInformation("User registeration Unsuccessful for user "+ userData.FirstName + " " + userData.LastName);
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
@@ -86,12 +86,12 @@ namespace FundooNotes.Controllers
                 var userToken = this.manager.GenerateToken(userData.Email);
                 if (result != null)
                 {
-                    this.logger.LogInformation(result.FirstName + " " + result.LastName + "has Logged in!!");
+                    this.logger.LogInformation(result.FirstName + " " + result.LastName + " has Logged in!!");
                     return this.Ok(new { Status = true, Message = "Login Successful!", result.FirstName, result.LastName, result.Email, userToken });
                 }
                 else
                 {
-                    this.logger.LogInformation(result.FirstName + " " + result.LastName + "entered incorrect email or password");
+                    this.logger.LogInformation("User entered incorrect email or password");
                     return this.BadRequest(new { Status = false, Message = "Incorrect Email or Password", Data = result });
                 }
             }
