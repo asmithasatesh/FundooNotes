@@ -86,15 +86,18 @@ namespace FundooNotes.Controllers
                 var userToken = this.manager.GenerateToken(userData.Email);
                 if (result != null)
                 {
+                    this.logger.LogInformation(result.FirstName + " " + result.LastName + "has Logged in!!");
                     return this.Ok(new { Status = true, Message = "Login Successful!", result.FirstName, result.LastName, result.Email, userToken });
                 }
                 else
                 {
+                    this.logger.LogInformation(result.FirstName + " " + result.LastName + "entered incorrect email or password");
                     return this.BadRequest(new { Status = false, Message = "Incorrect Email or Password", Data = result });
                 }
             }
             catch (Exception ex)
             {
+                this.logger.LogInformation("Exception while login : " + ex.Message);
                 return this.NotFound(new { Status = false, ex.Message });
             }
         }
