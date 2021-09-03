@@ -203,17 +203,24 @@ namespace Repository.Repository
             try
             {
                 NotesModel archiveNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).FirstOrDefault();
+                string message = "";
                 if (archiveNote == null)
                 {
-                    return "Note doesn't Exist!";
+                    message = "Note doesn't Exist!";
                 }
                 else
                 {
                     archiveNote.Archive = true;
+                    message = "Note has been Archieved!";
+                    if (archiveNote.Pin == true)
+                    {
+                        archiveNote.Pin = false;
+                        message = "Note unpinned and archived";
+                    }
                     this.UserContext.Update(archiveNote);
                     this.UserContext.SaveChanges();
-                    return "Note has been Archieved!";
                 }
+                return message;
             }
             catch (Exception ex)
             {
@@ -261,17 +268,24 @@ namespace Repository.Repository
             try
             {
                 NotesModel pinNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).FirstOrDefault();
+                string message = "";
                 if (pinNote == null)
                 {
-                    return "Note doesn't Exist!";
+                    message = "Note doesn't Exist!";
                 }
                 else
                 {
                     pinNote.Pin = true;
+                    message = "Note has been Pinned!";
+                    if (pinNote.Archive == true)
+                    {
+                        pinNote.Archive = false;
+                        message = "Note unarchived and pinned";
+                    }
                     this.UserContext.Update(pinNote);
                     this.UserContext.SaveChanges();
-                    return "Note has been Pinned!";
                 }
+                return message;
             }
             catch (Exception ex)
             {
