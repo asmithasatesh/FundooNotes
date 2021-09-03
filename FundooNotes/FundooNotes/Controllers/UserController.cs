@@ -117,15 +117,18 @@ namespace FundooNotes.Controllers
                 bool result = this.manager.ForgetPassword(email);
                 if (result == true)
                 {
+                    this.logger.LogInformation("Forget password mail sent to user at Gmail : "+email);
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Please check your email" });
                 }
                 else
                 {
+                    this.logger.LogInformation("Couldn't send email to : " + email);
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Email not Sent" });
                 }
             }
             catch (Exception ex)
             {
+                this.logger.LogInformation("Exception while sending mail for forget password : " + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
