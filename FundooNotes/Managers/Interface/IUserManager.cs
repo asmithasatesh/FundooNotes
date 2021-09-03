@@ -43,6 +43,11 @@ namespace Managers.Interface
         /// <returns>Return true if successful</returns>
         public bool ResetPassword(string email, string password);
 
+        /// <summary>
+        /// Generates the token.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns>Returns token string</returns>
         public string GenerateToken(string email);
     }
 }

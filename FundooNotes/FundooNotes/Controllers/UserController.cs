@@ -9,6 +9,7 @@ namespace FundooNotes.Controllers
     using System;
     using Managers.Interface;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
     using Models;
 
     /// <summary>
@@ -23,12 +24,19 @@ namespace FundooNotes.Controllers
         private readonly IUserManager manager;
 
         /// <summary>
+        /// The logger variable for user controller
+        /// </summary>
+        private readonly ILogger<UserController> logger;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
         /// </summary>
         /// <param name="manager">The manager.</param>
-        public UserController(IUserManager manager)
+        /// <param name="logger">The logger.</param>
+        public UserController(IUserManager manager, ILogger<UserController> logger)
         {
             this.manager = manager;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -43,6 +51,7 @@ namespace FundooNotes.Controllers
             try
             {
                 ////Send user data to manager
+                this.logger.LogInformation("User Controller register method called!!!"); 
                 string result = this.manager.Register(userData);
                 if (result == "Registeration Successful")
                 {
@@ -73,13 +82,13 @@ namespace FundooNotes.Controllers
                 ////Send user data to manager
                 RegisterModel result = this.manager.Login(userData.Email, userData.Password);
                 var userToken = this.manager.GenerateToken(userData.Email);
-                if (result!= null)
+                if (result != null)
                 {
-                    return this.Ok(new { Status = true, Message = "Login Successful!", result.FirstName ,result.LastName , result.Email , userToken });
+                    return this.Ok(new { Status = true, Message = "Login Successful!", result.FirstName, result.LastName, result.Email, userToken });
                 }
                 else
                 {
-                    return this.BadRequest(new { Status = false, Message = "Incorrect Email or Password" , Data=result });
+                    return this.BadRequest(new { Status = false, Message = "Incorrect Email or Password", Data = result });
                 }
             }
             catch (Exception ex)

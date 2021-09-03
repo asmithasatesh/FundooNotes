@@ -1,22 +1,34 @@
-﻿using Managers.Interface;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NotesController.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Asmitha Satesh"/>
+// ----------------------------------------------------------------------------------------------------------
 namespace FundooNotes.Controllers
 {
-    //[Authorize]
+    using System;
+    using System.Collections.Generic;
+    using Managers.Interface;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models;
+
+    /// <summary>
+    /// Notes controller where all route for application is defines
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+    [Authorize]
     public class NotesController : ControllerBase
     {
-        private readonly INotesManager noteManager;
         /// <summary>
-        /// Initialise INoteManager
+        /// variable of Interface note manager
         /// </summary>
-        /// <param name="notes">Instance of</param>
+        private readonly INotesManager noteManager;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotesController"/> class.
+        /// </summary>
+        /// <param name="notes">The notes.</param>
         public NotesController(INotesManager notes)
         {
             this.noteManager = notes;
@@ -25,7 +37,7 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// Create a note
         /// </summary>
-        /// <param name="noteData"></param>
+        /// <param name="noteData">Note data variable</param>
         /// <returns>Retrieve success message</returns>
         [HttpPost]
         [Route("api/CreateNote")]
@@ -50,23 +62,22 @@ namespace FundooNotes.Controllers
             }
         }
 
-      
         /// <summary>
         /// Retrieve user notes
         /// </summary>
-        /// <param name="UserId"></param>
+        /// <param name="userId">User Id</param>
         /// <returns>Retrieve success message</returns>
         [HttpGet]
         [Route("api/GetUserNote")]
-        public IActionResult GetUserNotes(int UserId)
+        public IActionResult GetUserNotes(int userId)
         {
             try
             {
                 ////Send user data to manager
-                List<NotesModel> result = this.noteManager.GetUserNotes(UserId);
+                List<NotesModel> result = this.noteManager.GetUserNotes(userId);
                 if (result != null)
                 {
-                    return this.Ok(new { Status = true, Message = "Retrieved user Notes!" , Data = result });
+                    return this.Ok(new { Status = true, Message = "Retrieved user Notes!", Data = result });
                 }
                 else
                 {
@@ -106,10 +117,11 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
         /// <summary>
         /// Restore trashed notes
         /// </summary>
-        /// <param name="notesId"></param>
+        /// <param name="notesId">Note data variable</param>
         /// <returns>Returns success message</returns>
         [HttpPut]
         [Route("api/RestoreTrash")]
@@ -133,10 +145,11 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
         /// <summary>
         /// Delete a note
         /// </summary>
-        /// <param name="notesId"></param>
+        /// <param name="notesId">Note data variable</param>
         /// <returns>Returns success message</returns>
         [HttpDelete]
         [Route("api/DeleteNote")]
@@ -160,19 +173,20 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
         /// <summary>
         /// Empty trashed notes
         /// </summary>
-        /// <param name="UserId"></param>
+        /// <param name="userId">User Id</param>
         /// <returns>Returns success message</returns>
         [HttpDelete]
         [Route("api/EmptyTrash")]
-        public IActionResult EmptyTrash(int UserId)
+        public IActionResult EmptyTrash(int userId)
         {
             try
             {
                 ////Send user data to manager
-                string result = this.noteManager.EmptyTrash(UserId);
+                string result = this.noteManager.EmptyTrash(userId);
                 if (result == "Trash has been cleared!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -187,10 +201,11 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
         /// <summary>
         /// Archive notes
         /// </summary>
-        /// <param name="notesId"></param>
+        /// <param name="notesId">Notes Id</param>
         /// <returns>Returns success message</returns>
         [HttpPut]
         [Route("api/ArchiveNote")]
@@ -214,10 +229,11 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
         /// <summary>
         /// Un archive note
         /// </summary>
-        /// <param name="notesId"></param>
+        /// <param name="notesId">Note data variable</param>
         /// <returns>Returns success message</returns>
         [HttpPut]
         [Route("api/UnArchiveNote")]
@@ -241,10 +257,11 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
         /// <summary>
         /// Pin Note
         /// </summary>
-        /// <param name="notesId"></param>
+        /// <param name="notesId">Notes Id</param>
         /// <returns>Returns success message</returns>
         [HttpPut]
         [Route("api/PinNote")]
@@ -268,10 +285,11 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
         /// <summary>
         /// Un pin note
         /// </summary>
-        /// <param name="notesId"></param>
+        /// <param name="notesId">Notes Id</param>
         /// <returns>Returns success message</returns>
         [HttpPut]
         [Route("api/UnPinNote")]
@@ -295,10 +313,11 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
         /// <summary>
         /// Set color for note
         /// </summary>
-        /// <param name="noteData"></param>
+        /// <param name="noteData">Note data variable</param>
         /// <returns>Success message</returns>
         [HttpPut]
         [Route("api/SetColor")]
@@ -326,7 +345,7 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// Set reminder
         /// </summary>
-        /// <param name="noteData"></param>
+        /// <param name="noteData">Note data variable</param>
         /// <returns>Returns request success message</returns>
         [HttpPut]
         [Route("api/SetReminder")]
@@ -354,7 +373,7 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// Remove reminder
         /// </summary>
-        /// <param name="noteData"></param>
+        /// <param name="noteData">Note data variable</param>
         /// <returns>Return request success message</returns>
         [HttpPut]
         [Route("api/RemoveReminder")]
@@ -382,7 +401,7 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// Update note title and description
         /// </summary>
-        /// <param name="noteData"></param>
+        /// <param name="noteData">Note data variable</param>
         /// <returns>Return success message</returns>
         [HttpPost]
         [Route("api/ UpdateNote")]
@@ -407,20 +426,19 @@ namespace FundooNotes.Controllers
             }
         }
 
-
         /// <summary>
-        /// Get asll Reminder notes
+        /// Get all Reminder notes
         /// </summary>
-        /// <param name="UserId"></param>
+        /// <param name="userId">User Id</param>
         /// <returns>List of Notes</returns>
         [HttpGet]
         [Route("api/GetReminder")]
-        public IActionResult GetReminder(int UserId)
+        public IActionResult GetReminder(int userId)
         {
             try
             {
                 ////Send user data to manager
-                List<NotesModel> result = this.noteManager.GetReminder(UserId);
+                List<NotesModel> result = this.noteManager.GetReminder(userId);
                 if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Retrieved Reminder Notes!", Data = result });
@@ -436,20 +454,19 @@ namespace FundooNotes.Controllers
             }
         }
 
-
         /// <summary>
         /// Get all Trashed notes
         /// </summary>
-        /// <param name="UserId"></param>
+        /// <param name="userId">User Id</param>
         /// <returns>List of notes</returns>
         [HttpGet]
         [Route("api/GetTrash")]
-        public IActionResult GetTrash(int UserId)
+        public IActionResult GetTrash(int userId)
         {
             try
             {
                 ////Send user data to manager
-                List<NotesModel> result = this.noteManager.GetTrash(UserId);
+                List<NotesModel> result = this.noteManager.GetTrash(userId);
                 if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Retrieved Trash Notes!", Data = result });
@@ -468,16 +485,16 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// Get all Archived notes
         /// </summary>
-        /// <param name="UserId"></param>
+        /// <param name="userId">User Id</param>
         /// <returns>List of notes</returns>
         [HttpGet]
         [Route("api/GetArchive")]
-        public IActionResult GetArchive(int UserId)
+        public IActionResult GetArchive(int userId)
         {
             try
             {
                 ////Send user data to manager
-                List<NotesModel> result = this.noteManager.GetArchive(UserId);
+                List<NotesModel> result = this.noteManager.GetArchive(userId);
                 if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Retrieved Archived Notes!", Data = result });

@@ -7,17 +7,18 @@
 namespace Repository.Repository
 {
     using System;
+    using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
     using System.Net;
     using System.Net.Mail;
+    using System.Security.Claims;
+    using System.Text;
     using Experimental.System.Messaging;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.IdentityModel.Tokens;
     using Models;
     using global::Repository.Context;
     using global::Repository.Interface;
-    using Microsoft.IdentityModel.Tokens;
-    using System.Security.Claims;
-    using System.IdentityModel.Tokens.Jwt;
-    using Microsoft.Extensions.Configuration;
 
     /// <summary>
     /// This class is used to store and manage user data
@@ -28,14 +29,18 @@ namespace Repository.Repository
         /// User context is used to call constructor for database Context
         /// </summary>
         public readonly UserContext UserContext;
-        public IConfiguration Configuration;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserRepository"/> class
+        /// The configuration variable
         /// </summary>
-        /// <param name="userContext">User Data</param>
-        /// <returns> Returns true if data added otherwise return false</returns>
-        public UserRepository(UserContext userContext,IConfiguration configuration)
+        public readonly IConfiguration Configuration;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRepository"/> class.
+        /// </summary>
+        /// <param name="userContext">The user context.</param>
+        /// <param name="configuration">The configuration.</param>
+        public UserRepository(UserContext userContext, IConfiguration configuration)
         {
             this.UserContext = userContext;
             this.Configuration = configuration;
@@ -51,7 +56,7 @@ namespace Repository.Repository
             try
             {
                 var checkUser = this.UserContext.Users.Where(user => user.Email == userData.Email).FirstOrDefault();
-                if(checkUser == null)
+                if (checkUser == null)
                 {
                     if (userData != null)
                     {
@@ -70,7 +75,6 @@ namespace Repository.Repository
                 {
                     return "Email already exist! please try again!";
                 }
-
             }
             catch (ArgumentNullException ex)
             {
@@ -106,14 +110,11 @@ namespace Repository.Repository
         /// <returns>Returns a token string</returns>
         public string GenerateToken(string email)
         {
-            var secret = this.Configuration["Secret"];
-            byte[] key = Convert.FromBase64String(secret);
+            var key = Encoding.UTF8.GetBytes(this.Configuration["Secret"]);
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key);
             SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] {
-                new Claim(ClaimTypes.Name, email)
-            }),
+                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, email) }),
                 Expires = DateTime.UtcNow.AddMinutes(30),
                 SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
             };
@@ -195,6 +196,7 @@ namespace Repository.Repository
             {
                 msgqueue = MessageQueue.Create(@".\Private$\MyFundooQueue");
             }
+
             Message message = new Message();
             var formatter = new BinaryMessageFormatter();
             message.Formatter = formatter;

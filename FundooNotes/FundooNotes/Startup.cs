@@ -45,7 +45,7 @@ namespace FundooNotes
             services.AddTransient<INotesRepository, NotesRepository>();
             services.AddSwaggerGen(swagger =>
             {
-                swagger.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Fundoo Notes", Description = "Google Keep Notes.", Version = "1.0" });
+                swagger.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Fundoo Notes", Description = "Allows user to customise notes", Version = "1.0" });
                 // To Enable authorization using Swagger (JWT)  
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
@@ -126,7 +126,7 @@ namespace FundooNotes
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "My Demo API (V 1.0)");
+                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "My Fundoo API (V 1.0)");
             });
         }
     }

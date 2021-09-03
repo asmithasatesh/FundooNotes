@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NotesModel.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Dandge Arti Subhash"/>
+// ----------------------------------------------------------------------------------------------------------
 namespace Models
 {
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    /// <summary>
+    /// Notes model to access data
+    /// </summary>
     public class NotesModel
     {
         /// <summary>
@@ -17,6 +23,7 @@ namespace Models
         /// </value>
         [Key]
         public int NotesId { get; set; }
+
         /// <summary>
         /// Gets or sets the user identifier.
         /// </summary>
@@ -25,8 +32,14 @@ namespace Models
         /// </value>
         [ForeignKey("RegisterModel")]
         public int UserId { get; set; }
-        public RegisterModel RegisterModel { get; set; }
 
+        /// <summary>
+        /// Gets or sets the register model.
+        /// </summary>
+        /// <value>
+        /// The register model.
+        /// </value>
+        public RegisterModel RegisterModel { get; set; }
 
         /// <summary>
         /// Gets or sets the title.
@@ -35,6 +48,7 @@ namespace Models
         /// The title.
         /// </value>
         public string Title { get; set; }
+
         /// <summary>
         /// Gets or sets the description.
         /// </summary>
@@ -42,6 +56,7 @@ namespace Models
         /// The description.
         /// </value>
         public string Description { get; set; }
+
         /// <summary>
         /// Gets or sets the remainder.
         /// </summary>
@@ -49,6 +64,7 @@ namespace Models
         /// The remainder.
         /// </value>
         public string Remainder { get; set; }
+
         /// <summary>
         /// Gets or sets the collaborator.
         /// </summary>
@@ -56,6 +72,7 @@ namespace Models
         /// The collaborator.
         /// </value>
         public string Collaborator { get; set; }
+
         /// <summary>
         /// Gets or sets the color.
         /// </summary>
@@ -63,6 +80,7 @@ namespace Models
         /// The color.
         /// </value>
         public string Color { get; set; }
+
         /// <summary>
         /// Gets or sets the image.
         /// </summary>
@@ -70,6 +88,7 @@ namespace Models
         /// The image.
         /// </value>
         public string Image { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="NotesModel"/> is archive.
         /// </summary>
@@ -78,6 +97,7 @@ namespace Models
         /// </value>
         [DefaultValue(false)]
         public bool Archive { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="NotesModel"/> is pin.
         /// </summary>
@@ -95,6 +115,5 @@ namespace Models
         /// </value>
         [DefaultValue(false)]
         public bool Trash { get; set; }
-
     }
 }
