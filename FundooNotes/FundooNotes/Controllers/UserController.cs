@@ -51,19 +51,21 @@ namespace FundooNotes.Controllers
             try
             {
                 ////Send user data to manager
-                this.logger.LogInformation("User Controller register method called!!!"); 
                 string result = this.manager.Register(userData);
                 if (result == "Registeration Successful")
                 {
+                    this.logger.LogInformation(userData.FirstName+" "+userData.LastName+"has been added successfully!!");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
+                    this.logger.LogInformation("User registeration Unsuccessful for user"+ userData.FirstName + " " + userData.LastName);
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
             {
+                this.logger.LogInformation("Exception while adding user : "+ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
