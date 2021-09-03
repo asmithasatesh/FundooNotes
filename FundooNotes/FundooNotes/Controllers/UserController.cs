@@ -148,15 +148,18 @@ namespace FundooNotes.Controllers
 
                 if (result == true)
                 {
+                    this.logger.LogInformation("Password reset successful for email: "+userData.Email);
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Password Reseted Successfully" });
                 }
                 else
                 {
+                    this.logger.LogInformation("Couldn't reset password for email: " + userData.Email);
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Password Reset Failed!" });
                 }
             }
             catch (Exception ex)
             {
+                this.logger.LogInformation("Exception while reset password : " + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
