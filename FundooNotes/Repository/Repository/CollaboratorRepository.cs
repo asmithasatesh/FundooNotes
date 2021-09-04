@@ -24,9 +24,9 @@ namespace Repository.Repository
         /// <returns>Returns success message</returns>
         public string AddCollaborator(CollaboratorModel model)
         {
-            var userEmail = this.UserContext.Users.Where(x => model.CollaboratorEmail == x.Email).SingleOrDefault();
-            var value = this.UserContext.Collaborators.Where(x => model.CollaboratorEmail == model.CollaboratorEmail && x.NotesId == model.NotesId).SingleOrDefault();
-            var Track = (from o in this.UserContext.Notes
+            var checkValidEmail = this.UserContext.Users.Where(x => model.CollaboratorEmail == x.Email).SingleOrDefault();
+            var existingEmail = this.UserContext.Collaborators.Where(x => x.CollaboratorEmail == model.CollaboratorEmail && x.NotesId == model.NotesId).SingleOrDefault();
+            var OwnerEmail = (from o in this.UserContext.Notes
                               join i in this.UserContext.Users
                               on o.UserId equals i.UserId
                               select new
@@ -35,11 +35,10 @@ namespace Repository.Repository
                               }).SingleOrDefault();
             string message = "";
             message = "Email already exist!";
-            var test = Track.Email;
-            if ( Track.Email.Equals(model.CollaboratorEmail) == false && value == null)
+            if (OwnerEmail.Email.Equals(model.CollaboratorEmail) == false && existingEmail == null)
             {
                 message = "This email isn’t valid";
-                if (userEmail != null)
+                if (checkValidEmail != null)
                 {
                     this.UserContext.Collaborators.Add(model);
                     this.UserContext.SaveChanges();
@@ -47,6 +46,35 @@ namespace Repository.Repository
                 }
             }
             return message;
+        }
+
+        public string RemoveCollaborator(int collabId)
+        {
+            var getCollab = this.UserContext.Collaborators.Where(x => x.CollaboratorId == collabId).SingleOrDefault();
+            if(getCollab != null)
+            {
+                this.UserContext.Collaborators.Remove(getCollab);
+                this.UserContext.SaveChanges();
+                return "Collaborator removed";
+            }
+            return "Collaborator doesn't exist!";
+        }
+        public List<string> GetCollaborator(int notesId)
+        {
+            try
+            {
+                List<CollaboratorModel> collabList= this.UserContext.Collaborators.Where(x => x.NotesId == notesId).ToList();
+                if (collabList.Count != 0)
+                {
+                    return collabList.Select(x => x.CollaboratorEmail).ToList();
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

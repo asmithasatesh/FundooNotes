@@ -26,5 +26,30 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public string RemoveCollaborator(int collabId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.collaboratorRepository.RemoveCollaborator(collabId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<string> GetCollaborator(int notesId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.collaboratorRepository.GetCollaborator(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
     }
 }

@@ -8,5 +8,7 @@ namespace Managers.Interface
     public interface ICollaboratorManager
     {
         public string AddCollaborator(CollaboratorModel model);
+        public string RemoveCollaborator(int collabId);
+        public List<string> GetCollaborator(int notesId);
     }
 }
