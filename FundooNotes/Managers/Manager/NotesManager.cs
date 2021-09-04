@@ -208,12 +208,12 @@ namespace Managers.Manager
         /// Returns success message
         /// </returns>
         /// <exception cref="System.Exception">Returns exception</exception>
-        public string SetColor(NotesModel notesModel)
+        public string SetColor(int notesId, string color)
         {
             try
             {
                 ////Send userdata to Repository and return result true or false
-                return this.repository.SetColor(notesModel);
+                return this.repository.SetColor(notesId, color);
             }
             catch (Exception ex)
             {
@@ -250,12 +250,12 @@ namespace Managers.Manager
         /// Returns success message
         /// </returns>
         /// <exception cref="System.Exception">Returns exception</exception>
-        public string SetReminder(NotesModel notesModel)
+        public string SetReminder(int notesId, string reminder)
         {
             try
             {
                 ////Send userdata to Repository and return result true or false
-                return this.repository.SetReminder(notesModel);
+                return this.repository.SetReminder(notesId, reminder);
             }
             catch (Exception ex)
             {
@@ -271,12 +271,12 @@ namespace Managers.Manager
         /// Returns success message
         /// </returns>
         /// <exception cref="System.Exception">Returns exception</exception>
-        public string RemoveReminder(NotesModel notesModel)
+        public string RemoveReminder(int notesId)
         {
             try
             {
                 ////Send userdata to Repository and return result true or false
-                return this.repository.RemoveReminder(notesModel);
+                return this.repository.RemoveReminder(notesId);
             }
             catch (Exception ex)
             {

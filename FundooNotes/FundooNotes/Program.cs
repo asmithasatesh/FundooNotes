@@ -17,7 +17,6 @@ namespace FundooNotes
         {
             CreateHostBuilder(args).Build().Run();
             NLog.LogManager.Shutdown();
-
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
