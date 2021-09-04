@@ -39,7 +39,7 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpDelete]
         [Route("api/RemoveCollaborator")]
         public IActionResult RemoveCollaborator(int collabId)
         {
@@ -62,7 +62,7 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpGet]
         [Route("api/GetCollaborator")]
         public IActionResult GetCollaborator(int notesId)
         {
