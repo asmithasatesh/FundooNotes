@@ -75,7 +75,7 @@ namespace Repository.Repository
                     return noteList;
                 }
 
-                return default;
+                return null;
             }
             catch (Exception ex)
             {
@@ -93,7 +93,7 @@ namespace Repository.Repository
         {
             try
             {
-                var deleteNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId)).FirstOrDefault();
+                var deleteNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId)).SingleOrDefault();
                 string message = "";
                 if (deleteNote == null)
                 {
@@ -130,7 +130,7 @@ namespace Repository.Repository
         {
             try
             {
-                var restoreNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Trash == true)).FirstOrDefault();
+                var restoreNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Trash == true)).SingleOrDefault();
                 if (restoreNote == null)
                 {
                     return "Note doesn't Exist!";
@@ -159,7 +159,7 @@ namespace Repository.Repository
         {
             try
             {
-                var deleteNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Trash == true)).FirstOrDefault();
+                var deleteNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Trash == true)).SingleOrDefault();
                 if (deleteNote == null)
                 {
                     return "Note doesn't Exist!";
@@ -208,7 +208,7 @@ namespace Repository.Repository
         {
             try
             {
-                NotesModel archiveNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).FirstOrDefault();
+                NotesModel archiveNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).SingleOrDefault();
                 string message = "";
                 if (archiveNote == null)
                 {
@@ -244,7 +244,7 @@ namespace Repository.Repository
         {
             try
             {
-                NotesModel restoreNote = this.UserContext.Notes.Where(x => x.NotesId == notesId && x.Archive == true).FirstOrDefault();
+                NotesModel restoreNote = this.UserContext.Notes.Where(x => x.NotesId == notesId && x.Archive == true).SingleOrDefault();
                 if (restoreNote == null)
                 {
                     return "Note doesn't Exist!";
@@ -273,7 +273,7 @@ namespace Repository.Repository
         {
             try
             {
-                NotesModel pinNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).FirstOrDefault();
+                NotesModel pinNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).SingleOrDefault();
                 string message = "";
                 if (pinNote == null)
                 {
@@ -309,7 +309,7 @@ namespace Repository.Repository
         {
             try
             {
-                NotesModel removePin = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Pin == true)).FirstOrDefault();
+                NotesModel removePin = this.UserContext.Notes.Where(x => (x.NotesId == notesId && x.Pin == true)).SingleOrDefault();
                 if (removePin == null)
                 {
                     return "Note doesn't Exist!";
@@ -334,14 +334,14 @@ namespace Repository.Repository
         /// <param name="notesModel">The notes model.</param>
         /// <returns>Return success message</returns>
         /// <exception cref="System.Exception">Returns exception message</exception>
-        public string SetColor(NotesModel notesModel)
+        public string SetColor(int notesId, string color)
         {
             try
             {
-                var colorData = this.UserContext.Notes.Where(x => (x.NotesId == notesModel.NotesId)).FirstOrDefault();
+                var colorData = this.UserContext.Notes.Where(x => (x.NotesId == notesId)).SingleOrDefault();
                 if (colorData != null)
                 {
-                    colorData.Color = notesModel.Color;
+                    colorData.Color = color;
                     this.UserContext.Notes.Update(colorData);
                     this.UserContext.SaveChanges();
                     return "Note color has been Set!";
@@ -361,14 +361,14 @@ namespace Repository.Repository
         /// <param name="notesModel">The notes model.</param>
         /// <returns>Returns success message</returns>
         /// <exception cref="System.Exception">Returns exception message</exception>
-        public string SetReminder(NotesModel notesModel)
+        public string SetReminder(int notesId, string reminder)
         {
             try
             {
-                var reminderData = this.UserContext.Notes.Where(x => (x.NotesId == notesModel.NotesId)).FirstOrDefault();
+                var reminderData = this.UserContext.Notes.Where(x => (x.NotesId == notesId)).SingleOrDefault();
                 if (reminderData != null)
                 {
-                    reminderData.Remainder = notesModel.Remainder;
+                    reminderData.Remainder = reminder;
                     this.UserContext.Notes.Update(reminderData);
                     this.UserContext.SaveChanges();
                     return "Reminder has been Set!";
@@ -388,11 +388,11 @@ namespace Repository.Repository
         /// <param name="notesModel">The notes model.</param>
         /// <returns>Returns success message</returns>
         /// <exception cref="System.Exception">Returns exception message</exception>
-        public string RemoveReminder(NotesModel notesModel)
+        public string RemoveReminder(int notesId)
         {
             try
             {
-                var reminderData = this.UserContext.Notes.Where(x => (x.NotesId == notesModel.NotesId)).FirstOrDefault();
+                var reminderData = this.UserContext.Notes.Where(x => (x.NotesId == notesId)).SingleOrDefault();
                 if (reminderData != null)
                 {
                     reminderData.Remainder = null;
@@ -419,7 +419,7 @@ namespace Repository.Repository
         {
             try
             {
-                var updateNote = this.UserContext.Notes.Where(x => (x.NotesId == notesModel.NotesId)).FirstOrDefault();
+                var updateNote = this.UserContext.Notes.Where(x => (x.NotesId == notesModel.NotesId)).SingleOrDefault();
                 if (updateNote != null)
                 {
                     updateNote.Title = notesModel.Title;
@@ -453,7 +453,7 @@ namespace Repository.Repository
                     return noteList;
                 }
 
-                return default;
+                return null;
             }
             catch (Exception ex)
             {
@@ -477,7 +477,7 @@ namespace Repository.Repository
                     return noteList;
                 }
 
-                return default;
+                return null;
             }
             catch (Exception ex)
             {
@@ -501,7 +501,7 @@ namespace Repository.Repository
                     return noteList;
                 }
 
-                return default;
+                return null;
             }
             catch (Exception ex)
             {

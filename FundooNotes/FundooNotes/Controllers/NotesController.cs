@@ -322,12 +322,12 @@ namespace FundooNotes.Controllers
         /// <returns>Success message</returns>
         [HttpPut]
         [Route("api/SetColor")]
-        public IActionResult SetColor([FromBody] NotesModel noteData)
+        public IActionResult SetColor(int notesId, string color)
         {
             try
             {
                 ////Send user data to manager
-                string result = this.noteManager.SetColor(noteData);
+                string result = this.noteManager.SetColor(notesId,color);
                 if (result == "Note color has been Set!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -350,12 +350,12 @@ namespace FundooNotes.Controllers
         /// <returns>Returns request success message</returns>
         [HttpPut]
         [Route("api/SetReminder")]
-        public IActionResult SetReminder([FromBody] NotesModel noteData)
+        public IActionResult SetReminder(int notesId, string reminder)
         {
             try
             {
                 ////Send user data to manager
-                string result = this.noteManager.SetReminder(noteData);
+                string result = this.noteManager.SetReminder(notesId , reminder);
                 if (result == "Reminder has been Set!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -378,12 +378,12 @@ namespace FundooNotes.Controllers
         /// <returns>Return request success message</returns>
         [HttpPut]
         [Route("api/RemoveReminder")]
-        public IActionResult RemoveReminder([FromBody] NotesModel noteData)
+        public IActionResult RemoveReminder(int notesId)
         {
             try
             {
                 ////Send user data to manager
-                string result = this.noteManager.RemoveReminder(noteData);
+                string result = this.noteManager.RemoveReminder(notesId);
                 if (result == "Reminder deleted")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });

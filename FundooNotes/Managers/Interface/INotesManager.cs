@@ -82,21 +82,21 @@ namespace Managers.Interface
         /// </summary>
         /// <param name="notesModel">The notes model.</param>
         /// <returns>Returns success message</returns>
-        public string SetColor(NotesModel notesModel);
+        public string SetColor(int notesId, string color);
 
         /// <summary>
         /// Sets the reminder.
         /// </summary>
         /// <param name="notesModel">The notes model.</param>
         /// <returns>Returns success message</returns>
-        public string SetReminder(NotesModel notesModel);
+        public string SetReminder(int notesId, string reminder);
 
         /// <summary>
         /// Removes the reminder.
         /// </summary>
         /// <param name="notesModel">The notes model.</param>
         /// <returns>Returns success message</returns>
-        public string RemoveReminder(NotesModel notesModel);
+        public string RemoveReminder(int notesId);
 
         /// <summary>
         /// Updates the note.

@@ -50,6 +50,31 @@ namespace Repository.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Collaborators",
+                columns: table => new
+                {
+                    CollaboratorId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CollaboratorEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NotesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Collaborators", x => x.CollaboratorId);
+                    table.ForeignKey(
+                        name: "FK_Collaborators_Notes_NotesId",
+                        column: x => x.NotesId,
+                        principalTable: "Notes",
+                        principalColumn: "NotesId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Collaborators_NotesId",
+                table: "Collaborators",
+                column: "NotesId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Notes_UserId",
                 table: "Notes",
@@ -58,6 +83,9 @@ namespace Repository.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Collaborators");
+
             migrationBuilder.DropTable(
                 name: "Notes");
 
