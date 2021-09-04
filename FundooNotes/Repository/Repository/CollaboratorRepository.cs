@@ -48,17 +48,6 @@ namespace Repository.Repository
             return message;
         }
 
-        public string RemoveCollaborator(int collabId)
-        {
-            var getCollab = this.UserContext.Collaborators.Where(x => x.CollaboratorId == collabId).SingleOrDefault();
-            if(getCollab != null)
-            {
-                this.UserContext.Collaborators.Remove(getCollab);
-                this.UserContext.SaveChanges();
-                return "Collaborator removed";
-            }
-            return "Collaborator doesn't exist!";
-        }
         public List<string> GetCollaborator(int notesId)
         {
             try
@@ -75,6 +64,17 @@ namespace Repository.Repository
             {
                 throw new Exception(ex.Message);
             }
+        }
+        public string RemoveCollaborator(int collabId)
+        {
+            var getCollab = this.UserContext.Collaborators.Where(x => x.CollaboratorId == collabId).SingleOrDefault();
+            if (getCollab != null)
+            {
+                this.UserContext.Collaborators.Remove(getCollab);
+                this.UserContext.SaveChanges();
+                return "Collaborator removed";
+            }
+            return "Collaborator doesn't exist!";
         }
     }
 }
