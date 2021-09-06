@@ -38,5 +38,17 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public string EditLabelUsingEdit(int userId, string labelName, string newLabelName)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.labelRepository.EditLabelUsingEdit(userId, labelName, newLabelName);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

@@ -66,5 +66,29 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpPut]
+        [Route("api/EditLabelUsingEdit")]
+        public IActionResult EditLabelUsingEdit(int userId, string labelName, string newLabelName)
+        {
+            try
+            {
+                ////Send user data to manager
+                string result = this.labelManager.EditLabelUsingEdit(userId, labelName, newLabelName);
+                if (result != "Couldn't update Label")
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
