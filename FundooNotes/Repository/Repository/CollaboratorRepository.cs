@@ -58,6 +58,7 @@ namespace Repository.Repository
                     this.UserContext.SaveChanges();
                     message = "Collaborator added";
                 }
+
                 return message;
             }
             catch (Exception ex)

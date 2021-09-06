@@ -81,21 +81,23 @@ namespace Repository.Interface
         /// <summary>
         /// Sets the color.
         /// </summary>
-        /// <param name="notesModel">The notes model.</param>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <param name="color">The color.</param>
         /// <returns>Returns success message</returns>
         public string SetColor(int notesId, string color);
 
         /// <summary>
         /// Sets the reminder.
         /// </summary>
-        /// <param name="notesModel">The notes model.</param>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <param name="reminder">The reminder.</param>
         /// <returns>Returns success message</returns>
         public string SetReminder(int notesId, string reminder);
 
         /// <summary>
         /// Removes the reminder.
         /// </summary>
-        /// <param name="notesModel">The notes model.</param>
+        /// <param name="notesId">The notes identifier.</param>
         /// <returns>Returns success message</returns>
         public string RemoveReminder(int notesId);
 
@@ -133,7 +135,21 @@ namespace Repository.Interface
         /// <param name="userId">The user identifier.</param>
         /// <returns>Returns Archive List</returns>
         public List<NotesModel> GetArchive(int userId);
-        public string AddImage(int notes, string FileName, Stream OpenReadStream);
+
+        /// <summary>
+        /// Adds the image.
+        /// </summary>
+        /// <param name="notes">The notes.</param>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="openReadStream">The open read stream.</param>
+        /// <returns>Returns success message</returns>
+        public string AddImage(int notes, string fileName, Stream openReadStream);
+
+        /// <summary>
+        /// Removes the image.
+        /// </summary>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <returns>Returns success message</returns>
         public string RemoveImage(int notesId);
     }
 }
