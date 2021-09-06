@@ -511,5 +511,19 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpPut]
+        [Route("api/AddImage")]
+        public IActionResult AddImage(int notes, IFormFile image)
+        {
+            try
+            {
+                string result = this.noteManager.AddImage(notes,image.FileName,image.OpenReadStream());
+                return this.Ok();
+            }
+            catch
+            {
+                return this.Ok();
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@
 namespace Managers.Interface
 {
     using System.Collections.Generic;
+    using Microsoft.AspNetCore.Http;
     using Models;
 
     /// <summary>
