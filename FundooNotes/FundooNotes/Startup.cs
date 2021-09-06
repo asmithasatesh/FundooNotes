@@ -45,6 +45,8 @@ namespace FundooNotes
             services.AddTransient<INotesRepository, NotesRepository>();
             services.AddTransient<ICollaboratorManager, CollaboratorManager>();
             services.AddTransient<ICollaboratorRepository, CollaboratorRepository>();
+            services.AddTransient<ILabelManager, LabelManager>();
+            services.AddTransient<ILabelRepository, LabelRepository>();
             services.AddSwaggerGen(swagger =>
             {
                 swagger.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Fundoo Notes", Description = "Allows user to customise notes", Version = "1.0" });

@@ -1,11 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LabelController.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Asmitha Satesh"/>
+// ----------------------------------------------------------------------------------------------------------
 namespace FundooNotes.Controllers
 {
-    public class LabelController
+    using Managers.Interface;
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.AspNetCore.Mvc;
+    using Models;
+    public class LabelController : ControllerBase
     {
+        private readonly ILabelManager labelManager;
+        public LabelController(ILabelManager labelManager)
+        {
+            this.labelManager = labelManager;
+        }
+
+        [HttpPost]
+        [Route("api/AddLabelUsingEdit")]
+        public IActionResult AddLabelUsingEdit([FromBody] LabelModel labelModel)
+        {
+            try
+            {
+                ////Send user data to manager
+                string result = this.labelManager.AddLabelUsingEdit(labelModel);
+                if (result == "Label created")
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result});
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

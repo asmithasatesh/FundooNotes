@@ -47,6 +47,7 @@ namespace Repository.Repository
                 var ownerEmail = (from o in this.UserContext.Notes
                                   join i in this.UserContext.Users
                                   on o.UserId equals i.UserId
+                                  where model.NotesId == o.NotesId
                                   select new
                                   {
                                       Email = i.Email
