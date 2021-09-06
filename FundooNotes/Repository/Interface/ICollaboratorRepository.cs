@@ -33,6 +33,6 @@ namespace Repository.Interface
         /// </summary>
         /// <param name="notesId">The notes identifier.</param>
         /// <returns>Returns list of collaborators</returns>
-        public List<string> GetCollaborator(int notesId);
+        public List<CollaboratorModel> GetCollaborator(int notesId);
     }
 }

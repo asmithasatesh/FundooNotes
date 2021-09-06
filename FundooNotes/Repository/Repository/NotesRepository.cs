@@ -43,7 +43,8 @@ namespace Repository.Repository
         {
             try
             {
-                if (noteData.Title != null || noteData.Description != null)
+
+                if (noteData.Title != null || noteData.Description != null || noteData.Remainder != null || noteData.Image != null)
                 {
                     //// Add data to Dbset
                     this.UserContext.Notes.Add(noteData);
@@ -69,12 +70,23 @@ namespace Repository.Repository
         {
             try
             {
-                List<NotesModel> noteList = this.UserContext.Notes.Where(x => x.UserId == userId && x.Trash == false && x.Archive == false).ToList();
-                if (noteList.Count != 0)
-                {
-                    return noteList;
-                }
+                var userEmail = this.UserContext.Users.Where(user => user.UserId == userId).Select(x => x.Email).SingleOrDefault();
+                List<NotesModel> collabList = (
+                                  from o in this.UserContext.Notes
+                                  join n in this.UserContext.Collaborators
+                                  on o.NotesId equals n.NotesId
+                                  where userEmail.Equals(n.CollaboratorEmail)
+                                  select o).ToList();
 
+                List<NotesModel> noteList = this.UserContext.Notes.Where(x => x.UserId == userId && x.Trash == false && x.Archive == false).ToList();
+                if (collabList.Count != 0)
+                {
+                    if (noteList.Count != 0)
+                    {
+                        collabList.AddRange(noteList);
+                    }
+                    return collabList;
+                }
                 return null;
             }
             catch (Exception ex)

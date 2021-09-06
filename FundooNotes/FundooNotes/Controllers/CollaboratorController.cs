@@ -100,10 +100,10 @@ namespace FundooNotes.Controllers
             try
             {
                 ////Send user data to manager
-                List<string> result = this.collaboratorManager.GetCollaborator(notesId);
+                List<CollaboratorModel> result = this.collaboratorManager.GetCollaborator(notesId);
                 if (result != null)
                 {
-                    return this.Ok(new ResponseModel<List<string>>() { Status = true, Message = "Retrieved Collaborators", Data = result });
+                    return this.Ok(new ResponseModel<List<CollaboratorModel>>() { Status = true, Message = "Retrieved Collaborators", Data = result });
                 }
                 else
                 {

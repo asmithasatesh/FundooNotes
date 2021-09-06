@@ -43,7 +43,6 @@ namespace Repository.Repository
             try
             {
                 string message = string.Empty;
-                var checkValidEmail = this.UserContext.Users.Where(x => model.CollaboratorEmail == x.Email).SingleOrDefault();
                 var existingEmail = this.UserContext.Collaborators.Where(x => x.CollaboratorEmail == model.CollaboratorEmail && x.NotesId == model.NotesId).SingleOrDefault();
                 var ownerEmail = (from o in this.UserContext.Notes
                                   join i in this.UserContext.Users
@@ -55,15 +54,10 @@ namespace Repository.Repository
                 message = "Email already exist!";
                 if (ownerEmail.Email.Equals(model.CollaboratorEmail) == false && existingEmail == null)
                 {
-                    message = "This email isn’t valid";
-                    if (checkValidEmail != null)
-                    {
-                        this.UserContext.Collaborators.Add(model);
-                        this.UserContext.SaveChanges();
-                        message = "Collaborator added";
-                    }
+                    this.UserContext.Collaborators.Add(model);
+                    this.UserContext.SaveChanges();
+                    message = "Collaborator added";
                 }
-
                 return message;
             }
             catch (Exception ex)
@@ -78,14 +72,14 @@ namespace Repository.Repository
         /// <param name="notesId">The notes identifier.</param>
         /// <returns>Returns list of collaborators</returns>
         /// <exception cref="System.Exception">Returns exception message</exception>
-        public List<string> GetCollaborator(int notesId)
+        public List<CollaboratorModel> GetCollaborator(int notesId)
         {
             try
             {
                 List<CollaboratorModel> collabList = this.UserContext.Collaborators.Where(x => x.NotesId == notesId).ToList();
                 if (collabList.Count != 0)
                 {
-                    return collabList.Select(x => x.CollaboratorEmail).ToList();
+                    return collabList;
                 }
 
                 return null;

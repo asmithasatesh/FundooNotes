@@ -10,6 +10,7 @@ namespace FundooNotes.Controllers
     using System.Collections.Generic;
     using Managers.Interface;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Models;
 
@@ -17,7 +18,7 @@ namespace FundooNotes.Controllers
     /// Notes controller where all route for application is defines
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
-    [Authorize]
+    //[Authorize]
     public class NotesController : ControllerBase
     {
         /// <summary>

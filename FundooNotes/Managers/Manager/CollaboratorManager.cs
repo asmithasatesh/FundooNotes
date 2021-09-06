@@ -82,7 +82,7 @@ namespace Managers.Manager
         /// Returns list of collaborators
         /// </returns>
         /// <exception cref="System.Exception">Returns exception message</exception>
-        public List<string> GetCollaborator(int notesId)
+        public List<CollaboratorModel> GetCollaborator(int notesId)
         {
             try
             {

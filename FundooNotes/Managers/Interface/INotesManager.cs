@@ -132,5 +132,7 @@ namespace Managers.Interface
         /// <param name="userId">The user identifier.</param>
         /// <returns>Returns Archive List</returns>
         public List<NotesModel> GetArchive(int userId);
+
+        //public string AddImage(int notes, IFormFile image);
     }
 }

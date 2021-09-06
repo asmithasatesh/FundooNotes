@@ -30,6 +30,7 @@ namespace Models
         /// The collaborator email.
         /// </value>
         [Required]
+        [RegularExpression(@"(^[a-z]+)(([\. \+ \-]?[a-z A-Z 0-9])*)@(([0-9 a-z]+[\.]+[a-z]{3})+([\.]+[a-z]{2,3})?$)", ErrorMessage = "Not a valid Email")]
         public string CollaboratorEmail { get; set; }
 
         /// <summary>
