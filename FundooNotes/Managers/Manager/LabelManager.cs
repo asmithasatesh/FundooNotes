@@ -50,5 +50,53 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public List<LabelModel> GetLabelUsingUserId(int userId) 
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.labelRepository.GetLabelUsingUserId(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<LabelModel> GetLabelByNoteId(int noteId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.labelRepository.GetLabelByNoteId(noteId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string RemoveLabel(int lableId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.labelRepository.RemoveLabel(lableId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string CreateLabelUsingNote(LabelModel labelModel)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.labelRepository.CreateLabelUsingNote(labelModel);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

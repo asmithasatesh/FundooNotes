@@ -2,6 +2,7 @@
 using Repository.Context;
 using Repository.Interface;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -111,6 +112,86 @@ namespace Repository.Repository
                 return "Couldn't update Label";
             }
             catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Adds the label using edit.
+        /// </summary>
+        /// <param name="labelModel">The label model.</param>
+        /// <returns>Returns success message</returns>
+        /// <exception cref="System.Exception">Returns exceptions</exception>
+        public string CreateLabelUsingNote(LabelModel labelModel)
+        {
+            try
+            {
+                var existLabel = this.UserContext.Labels.Where(label => label.LabelName == labelModel.LabelName && labelModel.NotesId == label.NotesId).SingleOrDefault();
+                List<LabelModel> labelList = new List<LabelModel>();
+                if (existLabel == null)
+                {
+                    labelList.Add(labelModel);
+                    labelModel.NotesId = null;
+                    labelList.Add(labelModel);
+                    this.UserContext.Labels.AddRange(labelList);
+                    this.UserContext.SaveChanges();
+                    return "Note added";
+                }
+                return "Label already exists";
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string RemoveLabel(int lableId)
+        {
+            try
+            {
+                var noteLabel = this.UserContext.Labels.Where(x => x.LabelId == lableId).SingleOrDefault();
+                if (noteLabel != null)
+                {
+                    this.UserContext.Labels.Remove(noteLabel);
+                    this.UserContext.SaveChanges();
+                    return ("Label is removed");
+                }
+                return "Remove label failed";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<LabelModel> GetLabelUsingUserId(int userId)
+        {
+            try
+            {
+                var listLabel = this.UserContext.Labels.Where(label => userId == label.UserId && label.NotesId == null).ToList();
+                if (listLabel.Count != 0)
+                {
+                    return listLabel;
+                }
+
+                return null;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<LabelModel> GetLabelByNoteId(int noteId)
+        {
+            try
+            {
+                var label = this.UserContext.Labels.Where(x => x.NotesId == noteId).ToList();
+                if (label.Count != 0)
+                {
+                    return label;
+                }
+                return null;
+
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

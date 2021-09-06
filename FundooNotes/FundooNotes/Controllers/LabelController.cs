@@ -90,5 +90,29 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpPut]
+        [Route("api/GetLabelUsingUserId")]
+        public IActionResult GetLabelUsingUserId(int userId)
+        {
+            try
+            {
+                ////Send user data to manager
+                List<LabelModel> result = this.labelManager.GetLabelUsingUserId(userId);
+                if (result != null)
+                {
+                    return this.Ok(new ResponseModel<List<LabelModel>>() { Status = true, Message = "Retrieved Label", Data = result});
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<List<LabelModel>>() { Status = false, Message = "Couldn't retrieve", Data = result });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
