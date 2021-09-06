@@ -10,6 +10,7 @@ namespace FundooNotes.Controllers
     using System.Collections.Generic;
     using Managers.Interface;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Models;
 
@@ -17,7 +18,7 @@ namespace FundooNotes.Controllers
     /// Notes controller where all route for application is defines
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
-    [Authorize]
+    ////[Authorize]
     public class NotesController : ControllerBase
     {
         /// <summary>
@@ -89,7 +90,6 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-
 
         /// <summary>
         /// Trashes the note.
@@ -316,10 +316,11 @@ namespace FundooNotes.Controllers
         }
 
         /// <summary>
-        /// Set color for note
+        /// Sets the color.
         /// </summary>
-        /// <param name="noteData">Note data variable</param>
-        /// <returns>Success message</returns>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <param name="color">The color.</param>
+        /// <returns>Returns request success message</returns>
         [HttpPut]
         [Route("api/SetColor")]
         public IActionResult SetColor(int notesId, string color)
@@ -327,7 +328,7 @@ namespace FundooNotes.Controllers
             try
             {
                 ////Send user data to manager
-                string result = this.noteManager.SetColor(notesId,color);
+                string result = this.noteManager.SetColor(notesId, color);
                 if (result == "Note color has been Set!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -344,9 +345,10 @@ namespace FundooNotes.Controllers
         }
 
         /// <summary>
-        /// Set reminder
+        /// Sets the reminder.
         /// </summary>
-        /// <param name="noteData">Note data variable</param>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <param name="reminder">The reminder.</param>
         /// <returns>Returns request success message</returns>
         [HttpPut]
         [Route("api/SetReminder")]
@@ -355,7 +357,7 @@ namespace FundooNotes.Controllers
             try
             {
                 ////Send user data to manager
-                string result = this.noteManager.SetReminder(notesId , reminder);
+                string result = this.noteManager.SetReminder(notesId, reminder);
                 if (result == "Reminder has been Set!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -374,7 +376,7 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// Remove reminder
         /// </summary>
-        /// <param name="noteData">Note data variable</param>
+        /// <param name="notesId">Note data variable</param>
         /// <returns>Return request success message</returns>
         [HttpPut]
         [Route("api/RemoveReminder")]
@@ -503,6 +505,61 @@ namespace FundooNotes.Controllers
                 else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Archive doesn't contain any notes!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Adds the image.
+        /// </summary>
+        /// <param name="notes">The notes.</param>
+        /// <param name="image">The image.</param>
+        /// <returns>Returns Exception</returns>
+        [HttpPut]
+        [Route("api/AddImage")]
+        public IActionResult AddImage(int notes, IFormFile image)
+        {
+            try
+            {
+                string result = this.noteManager.AddImage(notes, image.FileName, image.OpenReadStream());
+                if (result == "Image Uploaded")
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Removes the image.
+        /// </summary>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <returns>Returns Exception</returns>
+        [HttpPut]
+        [Route("api/RemoveImage")]
+        public IActionResult RemoveImage(int notesId)
+        {
+            try
+            {
+                string result = this.noteManager.RemoveImage(notesId);
+                if (result == "Image removed")
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)

@@ -54,18 +54,18 @@ namespace FundooNotes.Controllers
                 string result = this.manager.Register(userData);
                 if (result == "Registeration Successful")
                 {
-                    this.logger.LogInformation(userData.FirstName+" "+userData.LastName+" has been added successfully!!");
+                    this.logger.LogInformation(userData.FirstName + " " + userData.LastName + " has been added successfully!!");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
-                    this.logger.LogInformation("User registeration Unsuccessful for user "+ userData.FirstName + " " + userData.LastName);
+                    this.logger.LogInformation("User registeration Unsuccessful for user " + userData.FirstName + " " + userData.LastName);
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
             {
-                this.logger.LogInformation("Exception while adding user : "+ex.Message);
+                this.logger.LogInformation("Exception while adding user : " + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -117,7 +117,7 @@ namespace FundooNotes.Controllers
                 bool result = this.manager.ForgetPassword(email);
                 if (result == true)
                 {
-                    this.logger.LogInformation("Forget password mail sent to user at Gmail : "+email);
+                    this.logger.LogInformation("Forget password mail sent to user at Gmail : " + email);
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Please check your email" });
                 }
                 else
@@ -148,7 +148,7 @@ namespace FundooNotes.Controllers
 
                 if (result == true)
                 {
-                    this.logger.LogInformation("Password reset successful for email: "+userData.Email);
+                    this.logger.LogInformation("Password reset successful for email: " + userData.Email);
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Password Reseted Successfully" });
                 }
                 else

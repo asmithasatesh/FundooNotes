@@ -38,6 +38,21 @@ namespace Repository.Context
         /// The notes.
         /// </value>
         public DbSet<NotesModel> Notes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the collaborators.
+        /// </summary>
+        /// <value>
+        /// The collaborators.
+        /// </value>
         public DbSet<CollaboratorModel> Collaborators { get; set; }
+
+        /// <summary>
+        /// Gets or sets the labels.
+        /// </summary>
+        /// <value>
+        /// The labels.
+        /// </value>
+        public DbSet<LabelModel> Labels { get; set; }
     }
 }

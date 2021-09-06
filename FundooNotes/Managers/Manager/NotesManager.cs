@@ -8,6 +8,7 @@ namespace Managers.Manager
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using Managers.Interface;
     using Models;
     using Repository.Interface;
@@ -380,6 +381,31 @@ namespace Managers.Manager
             {
                 ////Send userdata to Repository and return result true or false
                 return this.repository.GetArchive(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string AddImage(int notes, string FileName, Stream OpenReadStream)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.AddImage(notes,FileName,OpenReadStream);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string RemoveImage(int notesId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.RemoveImage(notesId);
             }
             catch (Exception ex)
             {

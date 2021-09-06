@@ -1,8 +1,8 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CollaboratorModel.cs" company="Bridgelabz">
+// <copyright file="LabelModel.cs" company="Bridgelabz">
 //   Copyright © 2021 Company="BridgeLabz"
 // </copyright>
-// <creator name="Asmitha Satesh"/>
+// <creator name="Dandge Arti Subhash"/>
 // ----------------------------------------------------------------------------------------------------------
 namespace Models
 {
@@ -10,28 +10,27 @@ namespace Models
     using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
-    /// Collaborator model contains collaborator details
+    /// Label model to access data
     /// </summary>
-    public class CollaboratorModel
+    public class LabelModel
     {
         /// <summary>
-        /// Gets or sets the collaborator identifier.
+        /// Gets or sets the label identifier.
         /// </summary>
         /// <value>
-        /// The collaborator identifier.
+        /// The label identifier.
         /// </value>
         [Key]
-        public int CollaboratorId { get; set; }
+        public int LabelId { get; set; }
 
         /// <summary>
-        /// Gets or sets the collaborator email.
+        /// Gets or sets the name of the label.
         /// </summary>
         /// <value>
-        /// The collaborator email.
+        /// The name of the label.
         /// </value>
         [Required]
-        [RegularExpression(@"(^[a-z]+)(([\. \+ \-]?[a-z A-Z 0-9])*)@(([0-9 a-z]+[\.]+[a-z]{3})+([\.]+[a-z]{2,3})?$)", ErrorMessage = "Not a valid Email")]
-        public string CollaboratorEmail { get; set; }
+        public string LabelName { get; set; }
 
         /// <summary>
         /// Gets or sets the notes identifier.
@@ -40,7 +39,7 @@ namespace Models
         /// The notes identifier.
         /// </value>
         [ForeignKey("NotesModel")]
-        public int NotesId { get; set; }
+        public int? NotesId { get; set; }
 
         /// <summary>
         /// Gets or sets the notes model.
@@ -49,5 +48,22 @@ namespace Models
         /// The notes model.
         /// </value>
         public NotesModel NotesModel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user identifier.
+        /// </summary>
+        /// <value>
+        /// The user identifier.
+        /// </value>
+        [ForeignKey("RegisterModel")]
+        public int UserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the register model.
+        /// </summary>
+        /// <value>
+        /// The register model.
+        /// </value>
+        public RegisterModel RegisterModel { get; set; }
     }
 }

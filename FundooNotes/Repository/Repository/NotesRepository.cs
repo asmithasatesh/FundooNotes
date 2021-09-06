@@ -8,7 +8,11 @@ namespace Repository.Repository
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
+    using Microsoft.Extensions.Configuration;
     using Models;
     using global::Repository.Context;
     using global::Repository.Interface;
@@ -25,12 +29,19 @@ namespace Repository.Repository
         public readonly UserContext UserContext;
 
         /// <summary>
+        /// The configuration
+        /// </summary>
+        public readonly IConfiguration Configuration;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="NotesRepository"/> class.
         /// </summary>
         /// <param name="userContext">The user context.</param>
-        public NotesRepository(UserContext userContext)
+        /// <param name="configuration">The configuration.</param>
+        public NotesRepository(UserContext userContext, IConfiguration configuration)
         {
             this.UserContext = userContext;
+            this.Configuration = configuration;
         }
 
         /// <summary>
@@ -43,7 +54,7 @@ namespace Repository.Repository
         {
             try
             {
-                if (noteData.Title != null || noteData.Description != null)
+                if (noteData.Title != null || noteData.Description != null || noteData.Remainder != null || noteData.Image != null)
                 {
                     //// Add data to Dbset
                     this.UserContext.Notes.Add(noteData);
@@ -69,10 +80,23 @@ namespace Repository.Repository
         {
             try
             {
+                var userEmail = this.UserContext.Users.Where(user => user.UserId == userId).Select(x => x.Email).SingleOrDefault();
+                List<NotesModel> collabList = (
+                                  from o in this.UserContext.Notes
+                                  join n in this.UserContext.Collaborators
+                                  on o.NotesId equals n.NotesId
+                                  where userEmail.Equals(n.CollaboratorEmail)
+                                  select o).ToList();
+
                 List<NotesModel> noteList = this.UserContext.Notes.Where(x => x.UserId == userId && x.Trash == false && x.Archive == false).ToList();
-                if (noteList.Count != 0)
+                if (collabList.Count != 0)
                 {
-                    return noteList;
+                    if (noteList.Count != 0)
+                    {
+                        collabList.AddRange(noteList);
+                    }
+
+                    return collabList;
                 }
 
                 return null;
@@ -94,7 +118,7 @@ namespace Repository.Repository
             try
             {
                 var deleteNote = this.UserContext.Notes.Where(x => (x.NotesId == notesId)).SingleOrDefault();
-                string message = "";
+                string message = string.Empty;
                 if (deleteNote == null)
                 {
                     message = "Note doesn't Exist!";
@@ -103,15 +127,17 @@ namespace Repository.Repository
                 {
                     deleteNote.Trash = true;
                     deleteNote.Remainder = null;
-                    if(deleteNote.Pin == true)
+                    if (deleteNote.Pin == true)
                     {
                         deleteNote.Pin = false;
                         message = "Note unpinned and trashed";
                     }
+
                     this.UserContext.Update(deleteNote);
                     this.UserContext.SaveChanges();
                     return "Note trashed";
                 }
+
                 return message;
             }
             catch (Exception ex)
@@ -209,7 +235,7 @@ namespace Repository.Repository
             try
             {
                 NotesModel archiveNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).SingleOrDefault();
-                string message = "";
+                string message = string.Empty;
                 if (archiveNote == null)
                 {
                     message = "Note doesn't Exist!";
@@ -223,9 +249,11 @@ namespace Repository.Repository
                         archiveNote.Pin = false;
                         message = "Note unpinned and archived";
                     }
+
                     this.UserContext.Update(archiveNote);
                     this.UserContext.SaveChanges();
                 }
+
                 return message;
             }
             catch (Exception ex)
@@ -274,7 +302,7 @@ namespace Repository.Repository
             try
             {
                 NotesModel pinNote = this.UserContext.Notes.Where(x => x.NotesId == notesId).SingleOrDefault();
-                string message = "";
+                string message = string.Empty;
                 if (pinNote == null)
                 {
                     message = "Note doesn't Exist!";
@@ -288,9 +316,11 @@ namespace Repository.Repository
                         pinNote.Archive = false;
                         message = "Note unarchived and pinned";
                     }
+
                     this.UserContext.Update(pinNote);
                     this.UserContext.SaveChanges();
                 }
+
                 return message;
             }
             catch (Exception ex)
@@ -331,9 +361,12 @@ namespace Repository.Repository
         /// <summary>
         /// Sets the color.
         /// </summary>
-        /// <param name="notesModel">The notes model.</param>
-        /// <returns>Return success message</returns>
-        /// <exception cref="System.Exception">Returns exception message</exception>
+        /// <param name="notesId">Notes Id</param>
+        /// <param name="color">The Color</param>
+        /// <returns>
+        /// Returns success message
+        /// </returns>
+        /// <exception cref="System.Exception">Returns Exception</exception>
         public string SetColor(int notesId, string color)
         {
             try
@@ -358,9 +391,12 @@ namespace Repository.Repository
         /// <summary>
         /// Sets the reminder.
         /// </summary>
-        /// <param name="notesModel">The notes model.</param>
-        /// <returns>Returns success message</returns>
-        /// <exception cref="System.Exception">Returns exception message</exception>
+        /// <param name="notesId">Notes Id</param>
+        /// <param name="reminder">The Reminder</param>
+        /// <returns>
+        /// Returns success message
+        /// </returns>
+        /// <exception cref="System.Exception">Returns Exception</exception>
         public string SetReminder(int notesId, string reminder)
         {
             try
@@ -385,9 +421,11 @@ namespace Repository.Repository
         /// <summary>
         /// Removes the reminder.
         /// </summary>
-        /// <param name="notesModel">The notes model.</param>
-        /// <returns>Returns success message</returns>
-        /// <exception cref="System.Exception">Returns exception message</exception>
+        /// <param name="notesId">Notes Id</param>
+        /// <returns>
+        /// Returns success message
+        /// </returns>
+        /// <exception cref="System.Exception">Returns Exception</exception>
         public string RemoveReminder(int notesId)
         {
             try
@@ -502,6 +540,67 @@ namespace Repository.Repository
                 }
 
                 return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Adds the image.
+        /// </summary>
+        /// <param name="notes">The notes.</param>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="openReadStream">The open read stream.</param>
+        /// <returns>Returns List of archive</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
+        public string AddImage(int notes, string fileName, Stream openReadStream)
+        {
+            try
+            {
+                var note = this.UserContext.Notes.Where(x => x.NotesId == notes).SingleOrDefault();
+                if (note != null)
+                {
+                    Account account = new Account(this.Configuration["CloudinaryAccount:CloudName"], this.Configuration["CloudinaryAccount:APIKey"], this.Configuration["CloudinaryAccount:APISecret"]);
+                    Cloudinary cloudinary = new Cloudinary(account);
+                    var uploadFile = new ImageUploadParams()
+                    {
+                        File = new FileDescription(fileName, openReadStream)
+                    };
+                    var uploadResult = cloudinary.Upload(uploadFile);
+                    note.Image = uploadResult.Url.ToString();
+                    this.UserContext.SaveChanges();
+                    return "Image Uploaded";
+                }
+
+                return "Couldn't upload Image"; 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Removes the image.
+        /// </summary>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <returns>Returns success message</returns>
+        /// <exception cref="System.Exception">Returns exception message</exception>
+        public string RemoveImage(int notesId)
+        {
+            try
+            {
+                var note = this.UserContext.Notes.Where(x => x.NotesId == notesId).SingleOrDefault();
+                if (note != null)
+                {
+                    note.Image = null;
+                    this.UserContext.SaveChanges();
+                    return "Image removed";
+                }
+
+                return "Couldn't remove Image";
             }
             catch (Exception ex)
             {
