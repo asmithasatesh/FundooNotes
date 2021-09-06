@@ -448,3 +448,17 @@
 2021-09-06 16:00:51.3020 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
 2021-09-06 16:00:51.4162 Info Configuration initialized.
 2021-09-06 16:00:51.4162 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-06 16:15:43.4409 Info Message Template Auto Format enabled
+2021-09-06 16:15:43.6733 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-06 16:15:43.9167 Info Adding target FileTarget(Name=alldata)
+2021-09-06 16:15:43.9548 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'otherFile-web' not found for logging rule: *.
+2021-09-06 16:15:44.0170 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
+2021-09-06 16:15:44.0838 Info Configuration initialized.
+2021-09-06 16:15:44.0838 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-06 16:20:55.1738 Info Message Template Auto Format enabled
+2021-09-06 16:20:55.2760 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-06 16:20:55.5470 Info Adding target FileTarget(Name=alldata)
+2021-09-06 16:20:55.6034 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'otherFile-web' not found for logging rule: *.
+2021-09-06 16:20:55.7006 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
+2021-09-06 16:20:55.7870 Info Configuration initialized.
+2021-09-06 16:20:55.7870 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False

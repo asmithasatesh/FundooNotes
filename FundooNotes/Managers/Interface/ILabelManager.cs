@@ -8,5 +8,6 @@ namespace Managers.Interface
     public interface ILabelManager
     {
         public string AddLabelUsingEdit(LabelModel labelModel);
+        public string RemoveLabelUsingEdit(string labelName, int userId);
     }
 }

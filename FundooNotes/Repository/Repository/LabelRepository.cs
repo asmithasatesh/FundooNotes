@@ -23,11 +23,12 @@ namespace Repository.Repository
         {
             this.UserContext = userContext;
         }
+
         public string AddLabelUsingEdit(LabelModel labelModel)
         {
             try
             {
-                var existLabel = this.UserContext.Labels.Where(label => label.LabelName == labelModel.LabelName).SingleOrDefault();
+                var existLabel = this.UserContext.Labels.Where(label => label.LabelName == labelModel.LabelName && labelModel.UserId == label.UserId).SingleOrDefault();
                 if(existLabel == null)
                 {
                     this.UserContext.Labels.Add(labelModel);
@@ -35,6 +36,25 @@ namespace Repository.Repository
                     return "Label created";
                 }
                 return "Label already exists";
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string RemoveLabelUsingEdit(string labelName, int userId)
+        {
+            try
+            {
+                var labelList = this.UserContext.Labels.Where(label => label.LabelName == labelName && label.UserId == userId).ToList();
+                if( labelList.Count != 0)
+                {
+                    this.UserContext.Labels.RemoveRange(labelList);
+                    this.UserContext.SaveChanges();
+                    return "Label deleted";
+                }
+                return null;
             }
             catch (ArgumentNullException ex)
             {

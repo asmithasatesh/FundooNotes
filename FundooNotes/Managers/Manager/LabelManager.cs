@@ -26,5 +26,17 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public string RemoveLabelUsingEdit(string labelName, int userId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.labelRepository.RemoveLabelUsingEdit(labelName, userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

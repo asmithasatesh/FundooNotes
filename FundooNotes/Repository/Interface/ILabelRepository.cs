@@ -8,5 +8,6 @@ namespace Repository.Interface
     public interface ILabelRepository
     {
        public string  AddLabelUsingEdit(LabelModel labelModel);
+        public string RemoveLabelUsingEdit(string labelName, int userId);
     }
 }
