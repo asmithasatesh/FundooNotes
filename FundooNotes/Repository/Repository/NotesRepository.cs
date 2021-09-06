@@ -549,9 +549,28 @@ namespace Repository.Repository
                     var uploadResult = cloudinary.Upload(uploadFile);
                     note.Image = uploadResult.Url.ToString();
                     this.UserContext.SaveChanges();
-                    return "Image added";
+                    return "Image Uploaded";
                 }
-                return null; 
+                return "Couldn't upload Image"; 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string RemoveImage(int notesId)
+        {
+            try
+            {
+                var note = this.UserContext.Notes.Where(x => x.NotesId == notesId).SingleOrDefault();
+                if (note != null)
+                {
+                    note.Image = null;
+                    this.UserContext.SaveChanges();
+                    return "Image removed";
+                }
+                return "Couldn't remove Image";
             }
             catch (Exception ex)
             {

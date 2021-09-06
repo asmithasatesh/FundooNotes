@@ -399,5 +399,18 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public string RemoveImage(int notesId)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.repository.RemoveImage(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

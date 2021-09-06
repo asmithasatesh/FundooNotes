@@ -518,12 +518,42 @@ namespace FundooNotes.Controllers
             try
             {
                 string result = this.noteManager.AddImage(notes,image.FileName,image.OpenReadStream());
-                return this.Ok();
+                if (result == "Image Uploaded")
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return this.Ok();
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpPut]
+        [Route("api/RemoveImage")]
+        public IActionResult RemoveImage(int notesId)
+        {
+            try
+            {
+                string result = this.noteManager.RemoveImage(notesId);
+                if (result == "Image removed")
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+
     }
 }

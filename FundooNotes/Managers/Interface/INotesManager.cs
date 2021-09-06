@@ -134,6 +134,7 @@ namespace Managers.Interface
         /// <returns>Returns Archive List</returns>
         public List<NotesModel> GetArchive(int userId);
         public string AddImage(int notes, string FileName, Stream OpenReadStream);
+        public string RemoveImage(int notesId);
 
     }
 }
