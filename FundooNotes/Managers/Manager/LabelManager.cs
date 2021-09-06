@@ -98,5 +98,17 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public List<LabelModel> DisplayLabelNote(int userId, string labelName)
+        {
+            try
+            {
+                ////Send userdata to Repository and return result true or false
+                return this.labelRepository.DisplayLabelNote(userId, labelName);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
