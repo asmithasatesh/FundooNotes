@@ -127,13 +127,14 @@ namespace Repository.Repository
             try
             {
                 var existLabel = this.UserContext.Labels.Where(label => label.LabelName == labelModel.LabelName && labelModel.NotesId == label.NotesId).SingleOrDefault();
-                List<LabelModel> labelList = new List<LabelModel>();
                 if (existLabel == null)
                 {
-                    labelList.Add(labelModel);
+                    var noteId = labelModel.NotesId;
                     labelModel.NotesId = null;
-                    labelList.Add(labelModel);
-                    this.UserContext.Labels.AddRange(labelList);
+                    AddLabelUsingEdit(labelModel);
+                    labelModel.LabelId = 0;
+                    labelModel.NotesId = noteId;
+                    this.UserContext.Labels.Add(labelModel);
                     this.UserContext.SaveChanges();
                     return "Note added";
                 }

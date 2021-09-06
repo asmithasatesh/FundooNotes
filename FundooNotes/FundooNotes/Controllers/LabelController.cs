@@ -91,7 +91,7 @@ namespace FundooNotes.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpGet]
         [Route("api/GetLabelUsingUserId")]
         public IActionResult GetLabelUsingUserId(int userId)
         {
@@ -114,7 +114,7 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-        [HttpPut]
+        [HttpGet]
         [Route("api/GetLabelByNoteId")]
         public IActionResult GetLabelByNoteId(int noteId)
         {
@@ -129,6 +129,52 @@ namespace FundooNotes.Controllers
                 else
                 {
                     return this.BadRequest(new ResponseModel<List<LabelModel>>() { Status = false, Message = "Couldn't retrieve", Data = result });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpDelete]
+        [Route("api/RemoveLabel")]
+        public IActionResult RemoveLabel(int lableId)
+        {
+            try
+            {
+                ////Send user data to manager
+                string result = this.labelManager.RemoveLabel(lableId);
+                if (result != "Label is removed")
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpPut]
+        [Route("api/CreateLabelUsingNote")]
+        public IActionResult CreateLabelUsingNote([FromBody] LabelModel labelModel)
+        {
+            try
+            {
+                ////Send user data to manager
+                string result = this.labelManager.CreateLabelUsingNote(labelModel);
+                if (result != "Note added")
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
 
             }

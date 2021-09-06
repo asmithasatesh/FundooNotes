@@ -18,7 +18,7 @@ namespace FundooNotes.Controllers
     /// Notes controller where all route for application is defines
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
-    [Authorize]
+    ////[Authorize]
     public class NotesController : ControllerBase
     {
         /// <summary>
