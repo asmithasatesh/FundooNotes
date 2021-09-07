@@ -10,6 +10,7 @@ namespace Managers.Manager
     using System.Collections.Generic;
     using System.IO;
     using Managers.Interface;
+    using Microsoft.AspNetCore.Http;
     using Models;
     using Repository.Interface;
 
@@ -204,7 +205,8 @@ namespace Managers.Manager
         /// <summary>
         /// Sets the color.
         /// </summary>
-        /// <param name="notesModel">The notes model.</param>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <param name="color">The color.</param>
         /// <returns>
         /// Returns success message
         /// </returns>
@@ -246,17 +248,18 @@ namespace Managers.Manager
         /// <summary>
         /// Sets the reminder.
         /// </summary>
-        /// <param name="notesModel">The notes model.</param>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <param name="reminder">The reminder.</param>
         /// <returns>
         /// Returns success message
         /// </returns>
         /// <exception cref="System.Exception">Returns exception</exception>
-        public string SetReminder(int notesId, string reminder)
+        public string SetReminder(NotesModel notes)
         {
             try
             {
                 ////Send userdata to Repository and return result true or false
-                return this.repository.SetReminder(notesId, reminder);
+                return this.repository.SetReminder(notes);
             }
             catch (Exception ex)
             {
@@ -267,7 +270,7 @@ namespace Managers.Manager
         /// <summary>
         /// Removes the reminder.
         /// </summary>
-        /// <param name="notesModel">The notes model.</param>
+        /// <param name="notesId">The notes identifier.</param>
         /// <returns>
         /// Returns success message
         /// </returns>
@@ -387,12 +390,20 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
-        public string AddImage(int notes, string FileName, Stream OpenReadStream)
+
+        /// <summary>
+        /// Adds the image.
+        /// </summary>
+        /// <param name="notes">The notes.</param>
+        /// <param name="formFile">The form file.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>Returns success message</returns>
+        public string AddImage(int notes, IFormFile formFile, int userId)
         {
             try
             {
                 ////Send userdata to Repository and return result true or false
-                return this.repository.AddImage(notes,FileName,OpenReadStream);
+                return this.repository.AddImage(notes, formFile, userId);
             }
             catch (Exception ex)
             {
@@ -400,6 +411,14 @@ namespace Managers.Manager
             }
         }
 
+        /// <summary>
+        /// Removes the image.
+        /// </summary>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <returns>
+        /// Returns success message
+        /// </returns>
+        /// <exception cref="System.Exception">Returns exception</exception>
         public string RemoveImage(int notesId)
         {
             try

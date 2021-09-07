@@ -8,9 +8,11 @@ namespace FundooNotes.Controllers
 {
     using System;
     using Managers.Interface;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Models;
+    using StackExchange.Redis;
 
     /// <summary>
     /// Based on Route value will be changed
@@ -27,6 +29,8 @@ namespace FundooNotes.Controllers
         /// The logger variable for user controller
         /// </summary>
         private readonly ILogger<UserController> logger;
+        const string SessionName = "_Username";
+        const string SessionEmail = "_Email";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
@@ -54,6 +58,8 @@ namespace FundooNotes.Controllers
                 string result = this.manager.Register(userData);
                 if (result == "Registeration Successful")
                 {
+                    HttpContext.Session.SetString(SessionName, userData.FirstName+" "+userData.LastName);
+                    HttpContext.Session.SetString(SessionEmail, userData.Email);
                     this.logger.LogInformation(userData.FirstName + " " + userData.LastName + " has been added successfully!!");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
@@ -86,8 +92,14 @@ namespace FundooNotes.Controllers
                 var userToken = this.manager.GenerateToken(userData.Email);
                 if (result != null)
                 {
+                    ConnectionMultiplexer connection = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                    IDatabase database = connection.GetDatabase();
+                    string firstName = database.StringGet("First Name");
+                    string LastName = database.StringGet("Last Name");
+                    int userId = Convert.ToInt32(database.StringGet("User Id"));
+                
                     this.logger.LogInformation(result.FirstName + " " + result.LastName + " has Logged in!!");
-                    return this.Ok(new { Status = true, Message = "Login Successful!", result.FirstName, result.LastName, result.Email, userToken });
+                    return this.Ok(new { Status = true, Message = "Login Successful!", firstName, LastName, userId, result.Email, userToken });
                 }
                 else
                 {

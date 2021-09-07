@@ -19,6 +19,7 @@ namespace Repository.Repository
     using Models;
     using global::Repository.Context;
     using global::Repository.Interface;
+    using StackExchange.Redis;
 
     /// <summary>
     /// This class is used to store and manage user data
@@ -95,7 +96,12 @@ namespace Repository.Repository
                 string encodedPassword = this.EncryptPassword(password);
                 var login = this.UserContext.Users
                     .Where(x => (x.Email == email && x.Password == encodedPassword)).FirstOrDefault();
-                  return login;
+                ConnectionMultiplexer connection = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                IDatabase database = connection.GetDatabase();
+                database.StringSet(key: "First Name", login.FirstName);
+                database.StringSet(key: "Last Name", login.LastName);
+                database.StringSet(key: "User Id", login.UserId);
+                return login;
             }
             catch (ArgumentNullException ex)
             {

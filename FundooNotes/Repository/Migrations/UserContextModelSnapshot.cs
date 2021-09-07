@@ -76,9 +76,6 @@ namespace Repository.Migrations
                     b.Property<bool>("Archive")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Collaborator")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Color")
                         .HasColumnType("nvarchar(max)");
 

@@ -32,7 +32,6 @@ namespace Repository.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Remainder = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Collaborator = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Archive = table.Column<bool>(type: "bit", nullable: false),
