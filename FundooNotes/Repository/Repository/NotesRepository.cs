@@ -16,6 +16,7 @@ namespace Repository.Repository
     using Models;
     using global::Repository.Context;
     using global::Repository.Interface;
+    using Microsoft.AspNetCore.Http;
 
     /// <summary>
     /// Defines method/business logic for all API call
@@ -54,7 +55,7 @@ namespace Repository.Repository
         {
             try
             {
-                if (noteData.Title != null || noteData.Description != null || noteData.Remainder != null || noteData.Image != null)
+                if (noteData.Title != null || noteData.Description != null)
                 {
                     //// Add data to Dbset
                     this.UserContext.Notes.Add(noteData);
@@ -91,15 +92,11 @@ namespace Repository.Repository
                 List<NotesModel> noteList = this.UserContext.Notes.Where(x => x.UserId == userId && x.Trash == false && x.Archive == false).ToList();
                 if (collabList.Count != 0)
                 {
-                    if (noteList.Count != 0)
-                    {
-                        collabList.AddRange(noteList);
-                    }
-
+                      collabList.AddRange(noteList);
                     return collabList;
                 }
 
-                return null;
+                return noteList;
             }
             catch (Exception ex)
             {
@@ -397,20 +394,24 @@ namespace Repository.Repository
         /// Returns success message
         /// </returns>
         /// <exception cref="System.Exception">Returns Exception</exception>
-        public string SetReminder(int notesId, string reminder)
+        public string SetReminder(NotesModel notesModel)
         {
             try
             {
-                var reminderData = this.UserContext.Notes.Where(x => (x.NotesId == notesId)).SingleOrDefault();
+                var reminderData = this.UserContext.Notes.Where(x => (x.NotesId == notesModel.NotesId)).SingleOrDefault();
                 if (reminderData != null)
                 {
-                    reminderData.Remainder = reminder;
+                    reminderData.Remainder = notesModel.Remainder;
                     this.UserContext.Notes.Update(reminderData);
                     this.UserContext.SaveChanges();
                     return "Reminder has been Set!";
                 }
-
-                return "Couldn't set Reminder";
+                else
+                {
+                    this.UserContext.Notes.Add(notesModel);
+                    this.UserContext.SaveChanges();
+                    return "Note created";
+                }
             }
             catch (Exception ex)
             {
@@ -555,26 +556,33 @@ namespace Repository.Repository
         /// <param name="openReadStream">The open read stream.</param>
         /// <returns>Returns List of archive</returns>
         /// <exception cref="System.Exception">Returns exception message</exception>
-        public string AddImage(int notes, string fileName, Stream openReadStream)
+        public string AddImage(int notes, IFormFile formFile, int userId)
         {
             try
             {
                 var note = this.UserContext.Notes.Where(x => x.NotesId == notes).SingleOrDefault();
+                Account account = new Account(this.Configuration["CloudinaryAccount:CloudName"], this.Configuration["CloudinaryAccount:APIKey"], this.Configuration["CloudinaryAccount:APISecret"]);
+                Cloudinary cloudinary = new Cloudinary(account);
+                var uploadFile = new ImageUploadParams()
+                {
+                    File = new FileDescription(formFile.FileName, formFile.OpenReadStream())
+                };
+                var uploadResult = cloudinary.Upload(uploadFile);
                 if (note != null)
                 {
-                    Account account = new Account(this.Configuration["CloudinaryAccount:CloudName"], this.Configuration["CloudinaryAccount:APIKey"], this.Configuration["CloudinaryAccount:APISecret"]);
-                    Cloudinary cloudinary = new Cloudinary(account);
-                    var uploadFile = new ImageUploadParams()
-                    {
-                        File = new FileDescription(fileName, openReadStream)
-                    };
-                    var uploadResult = cloudinary.Upload(uploadFile);
                     note.Image = uploadResult.Url.ToString();
                     this.UserContext.SaveChanges();
                     return "Image Uploaded";
                 }
-
-                return "Couldn't upload Image"; 
+                else
+                {
+                    NotesModel notesModel = new NotesModel();
+                    notesModel.Image = uploadResult.Url.ToString();
+                    notesModel.UserId = userId;
+                    this.UserContext.Notes.Add(notesModel);
+                    this.UserContext.SaveChanges();
+                    return "Note created";
+                }
             }
             catch (Exception ex)
             {

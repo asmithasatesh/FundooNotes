@@ -20,7 +20,6 @@ namespace Repository.Repository
     using global::Repository.Context;
     using global::Repository.Interface;
     using StackExchange.Redis;
-    using Microsoft.AspNetCore.Http;
 
     /// <summary>
     /// This class is used to store and manage user data
@@ -94,7 +93,6 @@ namespace Repository.Repository
         {
             try
             {
-
                 string encodedPassword = this.EncryptPassword(password);
                 var login = this.UserContext.Users
                     .Where(x => (x.Email == email && x.Password == encodedPassword)).FirstOrDefault();
@@ -261,8 +259,6 @@ namespace Repository.Repository
             smtp.Port = 587;
             smtp.Credentials = new NetworkCredential("generalemailapplication@gmail.com", "Abcd@1234");
             smtp.Send(mailMessage);
-            //HttpContext.Session.SetString("Sender Email", "generalemailapplication@gmail.com");
-            //HttpContext.Session.SetInt32("Receiver Email", email);
             return true;
         }
     }

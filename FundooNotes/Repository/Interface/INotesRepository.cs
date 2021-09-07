@@ -8,6 +8,7 @@ namespace Repository.Interface
 {
     using System.Collections.Generic;
     using System.IO;
+    using Microsoft.AspNetCore.Http;
     using Models;
 
     /// <summary>
@@ -89,10 +90,9 @@ namespace Repository.Interface
         /// <summary>
         /// Sets the reminder.
         /// </summary>
-        /// <param name="notesId">The notes identifier.</param>
-        /// <param name="reminder">The reminder.</param>
+        /// <param name="notes">The notes.</param>
         /// <returns>Returns success message</returns>
-        public string SetReminder(int notesId, string reminder);
+        public string SetReminder(NotesModel notes);
 
         /// <summary>
         /// Removes the reminder.
@@ -140,10 +140,10 @@ namespace Repository.Interface
         /// Adds the image.
         /// </summary>
         /// <param name="notes">The notes.</param>
-        /// <param name="fileName">Name of the file.</param>
-        /// <param name="openReadStream">The open read stream.</param>
+        /// <param name="formFile">The form file.</param>
+        /// <param name="userId">The user identifier.</param>
         /// <returns>Returns success message</returns>
-        public string AddImage(int notes, string fileName, Stream openReadStream);
+        public string AddImage(int notes, IFormFile formFile, int userId);
 
         /// <summary>
         /// Removes the image.

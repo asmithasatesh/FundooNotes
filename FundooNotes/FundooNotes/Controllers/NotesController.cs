@@ -18,7 +18,7 @@ namespace FundooNotes.Controllers
     /// Notes controller where all route for application is defines
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
-    ////[Authorize]
+    [Authorize]
     public class NotesController : ControllerBase
     {
         /// <summary>
@@ -352,12 +352,12 @@ namespace FundooNotes.Controllers
         /// <returns>Returns request success message</returns>
         [HttpPut]
         [Route("api/SetReminder")]
-        public IActionResult SetReminder(int notesId, string reminder)
+        public IActionResult SetReminder([FromBody] NotesModel notes)
         {
             try
             {
                 ////Send user data to manager
-                string result = this.noteManager.SetReminder(notesId, reminder);
+                string result = this.noteManager.SetReminder(notes);
                 if (result == "Reminder has been Set!")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -517,15 +517,17 @@ namespace FundooNotes.Controllers
         /// Adds the image.
         /// </summary>
         /// <param name="notes">The notes.</param>
-        /// <param name="image">The image.</param>
-        /// <returns>Returns Exception</returns>
+        /// <param name="formFile">The form file.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>Returns success message</returns>
+
         [HttpPut]
         [Route("api/AddImage")]
-        public IActionResult AddImage(int notes, IFormFile image)
+        public IActionResult AddImage(int notes, IFormFile formFile, int userId)
         {
             try
             {
-                string result = this.noteManager.AddImage(notes, image.FileName, image.OpenReadStream());
+                string result = this.noteManager.AddImage(notes, formFile, userId);
                 if (result == "Image Uploaded")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
