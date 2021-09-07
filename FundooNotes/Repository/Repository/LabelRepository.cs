@@ -136,7 +136,7 @@ namespace Repository.Repository
                     labelModel.NotesId = noteId;
                     this.UserContext.Labels.Add(labelModel);
                     this.UserContext.SaveChanges();
-                    return "Note added";
+                    return "Label added";
                 }
                 return "Label already exists";
             }
@@ -180,6 +180,12 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Get label by note id
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
         public List<LabelModel> GetLabelByNoteId(int noteId)
         {
             try
@@ -197,11 +203,23 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
-        public List<LabelModel> DisplayLabelNote(int userId, string labelName)
+
+        /// <summary>
+        /// Display note
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="labelName"></param>
+        /// <returns></returns>
+        public List<NotesModel> DisplayLabelNote(int userId, string labelName)
         {
             try
             {
-                var label = this.UserContext.Labels.Where(x => x.UserId == userId && x.LabelName == labelName).ToList();
+                var label = (from o in this.UserContext.Notes
+                join n in this.UserContext.Labels
+                on o.UserId equals n.UserId
+                where n.LabelName == labelName && n.UserId == userId && n.NotesId != null
+                select o).ToList();
+
                 if (label.Count != 0)
                 {
                     return label;

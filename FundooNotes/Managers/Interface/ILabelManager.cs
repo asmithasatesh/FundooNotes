@@ -14,5 +14,6 @@ namespace Managers.Interface
         public List<LabelModel> GetLabelByNoteId(int noteId);
         public string RemoveLabel(int lableId);
         public string CreateLabelUsingNote(LabelModel labelModel);
+        public List<NotesModel> DisplayLabelNote(int userId, string labelName);
     }
 }

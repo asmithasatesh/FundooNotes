@@ -47,6 +47,14 @@ namespace FundooNotes
             services.AddTransient<ICollaboratorRepository, CollaboratorRepository>();
             services.AddTransient<ILabelManager, LabelManager>();
             services.AddTransient<ILabelRepository, LabelRepository>();
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".FundooNotes.Session";
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.IsEssential = true;
+            });
             services.AddSwaggerGen(swagger =>
             {
                 swagger.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Fundoo Notes", Description = "Allows user to customise notes", Version = "1.0" });
@@ -116,7 +124,7 @@ namespace FundooNotes
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();

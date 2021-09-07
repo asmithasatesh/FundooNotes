@@ -168,7 +168,7 @@ namespace FundooNotes.Controllers
             {
                 ////Send user data to manager
                 string result = this.labelManager.CreateLabelUsingNote(labelModel);
-                if (result != "Note added")
+                if (result != "Label added")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
@@ -191,14 +191,14 @@ namespace FundooNotes.Controllers
             try
             {
                 ////Send user data to manager
-                List<LabelModel> result = this.labelManager.DisplayLabelNote( userId, labelName);
+                List<NotesModel> result = this.labelManager.DisplayLabelNote( userId, labelName);
                 if (result != null)
                 {
-                    return this.Ok(new ResponseModel<List<LabelModel>>() { Status = true, Message = "Notes Retrieved", Data = result});
+                    return this.Ok(new ResponseModel<List<NotesModel>>() { Status = true, Message = "Notes Retrieved", Data = result});
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<List<LabelModel>>() { Status = false, Message = "Couldn't retrieve", Data = result});
+                    return this.BadRequest(new ResponseModel<List<NotesModel>>() { Status = false, Message = "Couldn't retrieve", Data = result});
                 }
 
             }

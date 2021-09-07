@@ -98,7 +98,7 @@ namespace Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
-        public List<LabelModel> DisplayLabelNote(int userId, string labelName)
+        public List<NotesModel> DisplayLabelNote(int userId, string labelName)
         {
             try
             {

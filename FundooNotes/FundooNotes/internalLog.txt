@@ -532,3 +532,87 @@
 2021-09-06 20:05:16.4877 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
 2021-09-06 20:05:16.5497 Info Configuration initialized.
 2021-09-06 20:05:16.5497 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-06 20:27:06.9266 Info Message Template Auto Format enabled
+2021-09-06 20:27:06.9928 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-06 20:27:07.1935 Info Adding target FileTarget(Name=alldata)
+2021-09-06 20:27:07.2259 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'otherFile-web' not found for logging rule: *.
+2021-09-06 20:27:07.2944 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
+2021-09-06 20:27:07.3561 Info Configuration initialized.
+2021-09-06 20:27:07.3561 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-06 20:38:40.6976 Info Message Template Auto Format enabled
+2021-09-06 20:38:40.7426 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-06 20:38:40.8479 Info Adding target FileTarget(Name=alldata)
+2021-09-06 20:38:40.8718 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'otherFile-web' not found for logging rule: *.
+2021-09-06 20:38:40.9119 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
+2021-09-06 20:38:40.9583 Info Configuration initialized.
+2021-09-06 20:38:40.9583 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-06 21:27:34.7925 Info Message Template Auto Format enabled
+2021-09-06 21:27:34.8562 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-06 21:27:34.9973 Info Adding target FileTarget(Name=alldata)
+2021-09-06 21:27:35.0293 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'otherFile-web' not found for logging rule: *.
+2021-09-06 21:27:35.0748 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
+2021-09-06 21:27:35.1162 Info Configuration initialized.
+2021-09-06 21:27:35.1162 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-06 21:34:12.4191 Info Message Template Auto Format enabled
+2021-09-06 21:34:12.5242 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-06 21:34:12.7296 Info Adding target FileTarget(Name=alldata)
+2021-09-06 21:34:12.7692 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'otherFile-web' not found for logging rule: *.
+2021-09-06 21:34:12.8347 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
+2021-09-06 21:34:12.9289 Info Configuration initialized.
+2021-09-06 21:34:12.9289 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-07 08:11:51.9672 Info Message Template Auto Format enabled
+2021-09-07 08:11:52.0046 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-07 08:11:52.1221 Info Adding target FileTarget(Name=alldata)
+2021-09-07 08:11:52.1460 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'otherFile-web' not found for logging rule: *.
+2021-09-07 08:11:52.1835 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
+2021-09-07 08:11:52.2216 Info Configuration initialized.
+2021-09-07 08:11:52.2216 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-07 08:16:50.2617 Info Message Template Auto Format enabled
+2021-09-07 08:16:50.2999 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-07 08:16:50.3930 Info Adding target FileTarget(Name=alldata)
+2021-09-07 08:16:50.3930 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'otherFile-web' not found for logging rule: *.
+2021-09-07 08:16:50.4187 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
+2021-09-07 08:16:50.4516 Info Configuration initialized.
+2021-09-07 08:16:50.4516 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-07 08:22:34.0138 Info Message Template Auto Format enabled
+2021-09-07 08:22:34.0350 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-07 08:22:34.0730 Info Adding target FileTarget(Name=alldata)
+2021-09-07 08:22:34.0808 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'otherFile-web' not found for logging rule: *.
+2021-09-07 08:22:34.0961 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
+2021-09-07 08:22:34.1149 Info Configuration initialized.
+2021-09-07 08:22:34.1149 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-07 09:58:46.4240 Info Message Template Auto Format enabled
+2021-09-07 09:58:46.5206 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-07 09:58:46.7812 Info Adding target FileTarget(Name=alldata)
+2021-09-07 09:58:46.8392 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'otherFile-web' not found for logging rule: *.
+2021-09-07 09:58:46.9145 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
+2021-09-07 09:58:47.0012 Info Configuration initialized.
+2021-09-07 09:58:47.0053 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-07 10:03:00.3099 Info Message Template Auto Format enabled
+2021-09-07 10:03:00.3608 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-07 10:03:00.5303 Info Adding target FileTarget(Name=alldata)
+2021-09-07 10:03:00.5614 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'otherFile-web' not found for logging rule: *.
+2021-09-07 10:03:00.6258 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
+2021-09-07 10:03:00.6936 Info Configuration initialized.
+2021-09-07 10:03:00.6936 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-07 10:40:30.4191 Info Message Template Auto Format enabled
+2021-09-07 10:40:30.4840 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-07 10:40:30.6190 Info Adding target FileTarget(Name=alldata)
+2021-09-07 10:40:30.6484 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'otherFile-web' not found for logging rule: *.
+2021-09-07 10:40:30.6991 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
+2021-09-07 10:40:30.7515 Info Configuration initialized.
+2021-09-07 10:40:30.7530 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-07 10:43:40.5342 Info Message Template Auto Format enabled
+2021-09-07 10:43:40.5968 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-07 10:43:40.7838 Info Adding target FileTarget(Name=alldata)
+2021-09-07 10:43:40.8181 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'otherFile-web' not found for logging rule: *.
+2021-09-07 10:43:40.8673 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
+2021-09-07 10:43:40.9300 Info Configuration initialized.
+2021-09-07 10:43:40.9300 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-07 10:50:49.0488 Info Message Template Auto Format enabled
+2021-09-07 10:50:49.1094 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-07 10:50:49.2507 Info Adding target FileTarget(Name=alldata)
+2021-09-07 10:50:49.2810 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'otherFile-web' not found for logging rule: *.
+2021-09-07 10:50:49.3359 Info Validating config: TargetNames=alldata, ConfigItems=22, FilePath=D:\Application\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\NLog.config
+2021-09-07 10:50:49.3887 Info Configuration initialized.
+2021-09-07 10:50:49.3887 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
