@@ -8,15 +8,14 @@ namespace Repository.Repository
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using CloudinaryDotNet;
     using CloudinaryDotNet.Actions;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
     using Models;
     using global::Repository.Context;
     using global::Repository.Interface;
-    using Microsoft.AspNetCore.Http;
 
     /// <summary>
     /// Defines method/business logic for all API call
@@ -388,12 +387,9 @@ namespace Repository.Repository
         /// <summary>
         /// Sets the reminder.
         /// </summary>
-        /// <param name="notesId">Notes Id</param>
-        /// <param name="reminder">The Reminder</param>
-        /// <returns>
-        /// Returns success message
-        /// </returns>
-        /// <exception cref="System.Exception">Returns Exception</exception>
+        /// <param name="notesModel">The notes model.</param>
+        /// <returns>Returns string</returns>
+        /// <exception cref="System.Exception">Returns exception</exception>
         public string SetReminder(NotesModel notesModel)
         {
             try
@@ -552,10 +548,12 @@ namespace Repository.Repository
         /// Adds the image.
         /// </summary>
         /// <param name="notes">The notes.</param>
-        /// <param name="fileName">Name of the file.</param>
-        /// <param name="openReadStream">The open read stream.</param>
-        /// <returns>Returns List of archive</returns>
-        /// <exception cref="System.Exception">Returns exception message</exception>
+        /// <param name="formFile">The form file.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// Returns success message
+        /// </returns>
+        /// <exception cref="System.Exception">Returns exception</exception>
         public string AddImage(int notes, IFormFile formFile, int userId)
         {
             try

@@ -90,9 +90,8 @@ namespace Managers.Interface
         /// <summary>
         /// Sets the reminder.
         /// </summary>
-        /// <param name="notesId">The notes identifier.</param>
-        /// <param name="reminder">The reminder.</param>
-        /// <returns>Returns success message</returns>
+        /// <param name="notes">The notes.</param>
+        /// <returns>Return string</returns>
         public string SetReminder(NotesModel notes);
 
         /// <summary>

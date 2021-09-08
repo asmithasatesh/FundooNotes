@@ -98,10 +98,19 @@ namespace Repository.Repository
         {
             try
             {
+                string message = "Couldn't update Label";
                 var labelList = this.UserContext.Labels.Where(label => label.LabelName == labelName && label.UserId == userId).ToList();
-                var checknewLabel = this.UserContext.Labels.Where(label => label.LabelName == newLabelName && label.UserId == userId).ToList();
+                var checknewLabel = this.UserContext.Labels.Where(label => label.LabelName == newLabelName && label.NotesId == null && label.UserId == userId).SingleOrDefault();
                 if (labelList.Count != 0)
                 {
+                    message = "Label Updated";
+                    if (checknewLabel != null)
+                    {
+                        this.UserContext.Labels.Remove(checknewLabel);
+                        this.UserContext.SaveChanges();
+                        message = "Merge the '" + labelName + "' label with the '" + newLabelName + "' label? All notes labeled with '" + labelName + "' will be labeled with '" + newLabelName + "', and the '" + labelName + "' label will be deleted.";
+                    }
+
                     foreach (var label in labelList)
                     {
                         label.LabelName = newLabelName;
@@ -109,15 +118,9 @@ namespace Repository.Repository
 
                     this.UserContext.UpdateRange(labelList);
                     this.UserContext.SaveChanges();
-                    if (checknewLabel.Count != 0)
-                    {
-                        return "Merge the '" + labelName + "' label with the '" + newLabelName + "' label? All notes labeled with '" + labelName + "' will be labeled with '" + newLabelName + "', and the '" + labelName + "' label will be deleted.";
-                    }
-
-                    return "Label Updated";
                 }
 
-                return "Couldn't update Label";
+                return message;
             }
             catch (ArgumentNullException ex)
             {
@@ -138,11 +141,11 @@ namespace Repository.Repository
                 var existLabel = this.UserContext.Labels.Where(label => label.LabelName == labelModel.LabelName && labelModel.NotesId == label.NotesId).SingleOrDefault();
                 if (existLabel == null)
                 {
-                    LabelModel tempModel = (LabelModel)labelModel.Clone();
+                    this.UserContext.Labels.Add(labelModel);
+                    this.UserContext.SaveChanges();
+                    labelModel.LabelId = 0;
                     labelModel.NotesId = null;
                     this.AddLabelUsingEdit(labelModel);
-                    this.UserContext.Labels.Add(tempModel);
-                    this.UserContext.SaveChanges();
                     return "Label added";
                 }
 

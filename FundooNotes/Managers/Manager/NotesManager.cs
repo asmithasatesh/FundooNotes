@@ -248,10 +248,9 @@ namespace Managers.Manager
         /// <summary>
         /// Sets the reminder.
         /// </summary>
-        /// <param name="notesId">The notes identifier.</param>
-        /// <param name="reminder">The reminder.</param>
+        /// <param name="notes">The notes.</param>
         /// <returns>
-        /// Returns success message
+        /// Return string
         /// </returns>
         /// <exception cref="System.Exception">Returns exception</exception>
         public string SetReminder(NotesModel notes)
