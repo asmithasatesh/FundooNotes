@@ -347,9 +347,8 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// Sets the reminder.
         /// </summary>
-        /// <param name="notesId">The notes identifier.</param>
-        /// <param name="reminder">The reminder.</param>
-        /// <returns>Returns request success message</returns>
+        /// <param name="notes">The notes.</param>
+        /// <returns>Returns status message</returns>
         [HttpPut]
         [Route("api/SetReminder")]
         public IActionResult SetReminder([FromBody] NotesModel notes)
@@ -520,7 +519,6 @@ namespace FundooNotes.Controllers
         /// <param name="formFile">The form file.</param>
         /// <param name="userId">The user identifier.</param>
         /// <returns>Returns success message</returns>
-
         [HttpPut]
         [Route("api/AddImage")]
         public IActionResult AddImage(int notes, IFormFile formFile, int userId)

@@ -52,8 +52,8 @@ namespace FundooNotes
             services.AddSession(options =>
             {
                 options.Cookie.Name = ".FundooNotes.Session";
-                options.IdleTimeout = TimeSpan.FromMinutes(10);
-                options.Cookie.IsEssential = true;
+                options.IdleTimeout = TimeSpan.FromMinutes(3);
+                options.Cookie.IsEssential = false;
             });
             services.AddSwaggerGen(swagger =>
             {

@@ -13,7 +13,7 @@ namespace Models
     /// <summary>
     /// Label model to access data
     /// </summary>
-    public class LabelModel : ICloneable
+    public class LabelModel
     {
         /// <summary>
         /// Gets or sets the label identifier.
@@ -66,16 +66,5 @@ namespace Models
         /// The register model.
         /// </value>
         public RegisterModel RegisterModel { get; set; }
-
-        /// <summary>
-        /// Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        /// A new object that is a copy of this instance.
-        /// </returns>
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
     }
 }

@@ -29,8 +29,6 @@ namespace FundooNotes.Controllers
         /// The logger variable for user controller
         /// </summary>
         private readonly ILogger<UserController> logger;
-        const string SessionName = "_Username";
-        const string SessionEmail = "_Email";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
@@ -58,8 +56,6 @@ namespace FundooNotes.Controllers
                 string result = this.manager.Register(userData);
                 if (result == "Registeration Successful")
                 {
-                    HttpContext.Session.SetString(SessionName, userData.FirstName+" "+userData.LastName);
-                    HttpContext.Session.SetString(SessionEmail, userData.Email);
                     this.logger.LogInformation(userData.FirstName + " " + userData.LastName + " has been added successfully!!");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
@@ -95,11 +91,10 @@ namespace FundooNotes.Controllers
                     ConnectionMultiplexer connection = ConnectionMultiplexer.Connect("127.0.0.1:6379");
                     IDatabase database = connection.GetDatabase();
                     string firstName = database.StringGet("First Name");
-                    string LastName = database.StringGet("Last Name");
+                    string lastName = database.StringGet("Last Name");
                     int userId = Convert.ToInt32(database.StringGet("User Id"));
-                
                     this.logger.LogInformation(result.FirstName + " " + result.LastName + " has Logged in!!");
-                    return this.Ok(new { Status = true, Message = "Login Successful!", firstName, LastName, userId, result.Email, userToken });
+                    return this.Ok(new { Status = true, Message = "Login Successful!", firstName, lastName, userId, result.Email, userToken });
                 }
                 else
                 {
@@ -129,6 +124,7 @@ namespace FundooNotes.Controllers
                 bool result = this.manager.ForgetPassword(email);
                 if (result == true)
                 {
+                    HttpContext.Session.SetString("SessionEmail", email);
                     this.logger.LogInformation("Forget password mail sent to user at Gmail : " + email);
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Please check your email" });
                 }
@@ -156,17 +152,22 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                bool result = this.manager.ResetPassword(userData.Email, userData.Password);
+                string email = HttpContext.Session.GetString("SessionEmail");
+                if (email == null)
+                {
+                    return this.BadRequest(new { Status = false, Message = "Time expired! Try again.", email });
+                }
 
+                bool result = this.manager.ResetPassword(userData.Email, userData.Password);
                 if (result == true)
                 {
-                    this.logger.LogInformation("Password reset successful for email: " + userData.Email);
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Password Reseted Successfully" });
+                    this.logger.LogInformation("Password reset successful for email: " + email);
+                    return this.Ok(new { Status = true, Message = "Password Reseted Successfully", email });
                 }
                 else
                 {
-                    this.logger.LogInformation("Couldn't reset password for email: " + userData.Email);
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Password Reset Failed!" });
+                    this.logger.LogInformation("Couldn't reset password for email: " + email);
+                    return this.BadRequest(new { Status = false, Message = "Password Reset Failed!", email });
                 }
             }
             catch (Exception ex)
